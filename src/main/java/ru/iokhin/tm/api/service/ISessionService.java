@@ -9,6 +9,6 @@ public interface ISessionService {
 
     void validateSession(@Nullable final HttpSession session) throws AuthException;
 
-    void validateAdminSession(@Nullable final HttpSession session) throws AuthException;
+//    void validateAdminSession(@Nullable final HttpSession session) throws AuthException;
 
 }

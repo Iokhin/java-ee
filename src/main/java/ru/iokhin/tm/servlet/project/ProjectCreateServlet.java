@@ -10,6 +10,7 @@ import ru.iokhin.tm.model.User;
 import ru.iokhin.tm.service.ProjectService;
 import ru.iokhin.tm.service.SessionService;
 import ru.iokhin.tm.service.UserService;
+import ru.iokhin.tm.util.StringValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,32 +31,32 @@ public class ProjectCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/view/project-create.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/project/project-create.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession();
-//        try {
-//            sessionService.validateSession(session);
-            System.out.println(req.getParameter("name"));
-            System.out.println(req.getParameter("description"));
-            System.out.println(req.getSession().getAttribute("userId").toString());
-//        } catch (AuthException e) {
-//            resp.sendError(401, e.getMessage());
-//        }
+        try {
+            sessionService.validateSession(session);
+            Project project = getProject(req);
+            projectService.persist(project);
+        } catch (AuthException e) {
+            resp.sendRedirect("/login");
+        }
     }
 
     private Project getProject(HttpServletRequest req) {
         @NotNull final HttpSession session = req.getSession();
-        @NotNull final String name = req.getParameter("name");
-        @NotNull final String description = req.getParameter("description");
+        @NotNull final String name = req.getParameter("projectName");
+        @NotNull final String description = req.getParameter("projectDescription");
         @NotNull final String userId = session.getAttribute("userId").toString();
+        StringValidator.validate(name, description, userId);
         Project project = new Project();
-        project.setName(req.getParameter("name"));
-        project.setDescription(req.getParameter("description"));
-        project.setUserId(((User)session.getAttribute("userId")).getId());
+        project.setName(name);
+        project.setDescription(description);
+        project.setUserId(userId);
         return project;
     }
 }

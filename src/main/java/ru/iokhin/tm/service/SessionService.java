@@ -15,16 +15,16 @@ public enum SessionService implements ISessionService {
 
     @Override
     public void validateSession(@Nullable final HttpSession session) throws AuthException {
-        if (session.getAttribute("user") == null)
+        if (session.getAttribute("userId") == null)
             throw new AuthException("Session is invalid: \nDoes not found logged user! \nPlease re-login!");
     }
 
-    @Override
-    public void validateAdminSession(@Nullable final HttpSession session) throws AuthException {
-        validateSession(session);
-        @NotNull final User user = (User) session.getAttribute("user");
-        if (!user.getRole().equals(Role.ADMIN))
-            throw new AuthException("Forbidden action for your role!");
-
-    }
+//    @Override
+//    public void validateAdminSession(@Nullable final HttpSession session) throws AuthException {
+//        validateSession(session);
+//        @NotNull final User user = (User) session.getAttribute("userId");
+//        if (!user.getRole().equals(Role.ADMIN))
+//            throw new AuthException("Forbidden action for your role!");
+//
+//    }
 }
