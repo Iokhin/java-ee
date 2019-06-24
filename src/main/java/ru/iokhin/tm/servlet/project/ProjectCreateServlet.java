@@ -42,6 +42,7 @@ public class ProjectCreateServlet extends HttpServlet {
             sessionService.validateSession(session);
             Project project = getProject(req);
             projectService.persist(project);
+            resp.sendRedirect("/project-list");
         } catch (AuthException e) {
             resp.sendRedirect("/login");
         }

@@ -1,6 +1,7 @@
 package ru.iokhin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.iokhin.tm.api.repositroy.IProjectRepository;
 import ru.iokhin.tm.model.Project;
 
@@ -51,7 +52,8 @@ public enum ProjectRepository implements IProjectRepository {
 
     @Override
     public Project findOne(@NotNull final String id) {
-        return repository.get(id);
+        @Nullable final Project project = repository.get(id);
+        return project;
     }
 
     @Override

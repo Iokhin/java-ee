@@ -21,18 +21,10 @@
     width: 200%;
 }
 
-/*.reg-form {*/
-    /*width: 200px;*/
-/*}*/
-
 #project-create-form {
     display: flex;
     justify-content: center;
 }
-
-/*.project-create-form label {*/
-    /*!*width: 900px;*!*/
-/*}*/
 
 .user-welcome {
     display: flex;
@@ -42,5 +34,26 @@
 footer {
     background-color: #F8F9FA;
     height: 66px;
-    /*margin-top: 100px;*/
+}
+
+#table {
+    width: 70%;
+    margin-left:15%;
+    margin-right:15%;
+}
+
+#project-create-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.project-btn {
+    text-align: center;
+}
+
+form#project-edit-form {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 3px;
 }

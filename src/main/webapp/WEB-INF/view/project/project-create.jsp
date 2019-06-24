@@ -13,6 +13,7 @@
     <title>Create Project</title>
 </head>
 <body>
+<h3 style="text-align: center">PROJECT CREATE</h3>
 <div id="project-create-form">
     <form class="project-create-form" action="${pageContext.request.contextPath}/project-create" method="post">
         <div class="user-input">
