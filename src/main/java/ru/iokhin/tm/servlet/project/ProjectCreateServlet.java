@@ -30,34 +30,18 @@ public class ProjectCreateServlet extends HttpServlet {
     private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/view/project/project-create.jsp").forward(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         HttpSession session = req.getSession();
         try {
             sessionService.validateSession(session);
-            Project project = getProject(req);
+            Project project = new Project();//getProject(req);
+            project.setName("NEW PROJECT");
+            project.setDescription("NEW DESCRIPTION");
+            project.setUserId(session.getAttribute("userId").toString());
             projectService.persist(project);
             resp.sendRedirect("/project-list");
         } catch (AuthException e) {
             resp.sendRedirect("/login");
         }
-    }
-
-    private Project getProject(HttpServletRequest req) {
-        @NotNull final HttpSession session = req.getSession();
-        @NotNull final String name = req.getParameter("projectName");
-        @NotNull final String description = req.getParameter("projectDescription");
-        @NotNull final String userId = session.getAttribute("userId").toString();
-        StringValidator.validate(name, description, userId);
-        Project project = new Project();
-        project.setName(name);
-        project.setDescription(description);
-        project.setUserId(userId);
-        return project;
     }
 }

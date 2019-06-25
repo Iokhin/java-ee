@@ -23,7 +23,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
-        <th scope="col" colspan="2" style="text-align: center">Option</th>
+        <th scope="col" colspan="3" style="text-align: center">Options</th>
     </tr>
     </thead>
     <tbody>
@@ -43,7 +43,14 @@
             <td scope="row" class="project-btn">
                 <a href="${pageContext.request.contextPath}/project-remove?id=${project.getId()}">
                     <button type="submit" class="btn btn-outline-danger btn-small">
-                        <i class=" fa fa-trash-o"></i>
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </a>
+            </td>
+            <td scope="row" class="project-btn">
+                <a href="${pageContext.request.contextPath}/task-list?id=${project.getId()}">
+                    <button type="submit" class="btn btn-outline-success btn-small">
+                        <i class="fa fa-calendar-check-o"></i>
                     </button>
                 </a>
             </td>
@@ -51,7 +58,7 @@
     </c:forEach>
     </tbody>
 </table>
-<form action="${pageContext.request.contextPath}/project-create" method="get" id="project-create-btn">
+<form action="${pageContext.request.contextPath}/project-create" method="post" id="project-create-btn">
     <button type="submit" class="btn btn-outline-success">create new project
     </button>
 </form>

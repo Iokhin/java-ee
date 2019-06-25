@@ -45,9 +45,9 @@ public class ProjectEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession session = req.getSession();
+        HttpSession session = req.getSession();
         try {
-//            sessionService.validateSession(session);
+            sessionService.validateSession(session);
             @NotNull final String projectId = req.getParameter("id");
             @NotNull final Project project = getProject(req);
             projectService.merge(project);

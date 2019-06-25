@@ -20,12 +20,12 @@ public enum TaskRepository implements ITaskRepository {
 
     @Override
     public List<Task> findAllByUserId(@NotNull String userId) {
-        List<Task> projects = new ArrayList<>();
-        for (Task project : repository.values()) {
-            if (project.getUserId().equals(userId))
-                projects.add(project);
+        List<Task> tasks = new ArrayList<>();
+        for (Task task : repository.values()) {
+            if (task.getUserId().equals(userId))
+                tasks.add(task);
         }
-        return projects;
+        return tasks;
     }
 
     @Override

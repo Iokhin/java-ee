@@ -32,7 +32,6 @@ public class ProjectListServlet extends HttpServlet {
         try {
             sessionService.validateSession(session);
             List<Project> projects = projectService.findAllByUserId(session.getAttribute("userId").toString());
-            System.out.println(projects);
             req.setAttribute("projects", projects);
             req.getRequestDispatcher("/WEB-INF/view/project/project-list.jsp").forward(req, resp);
         } catch (AuthException e) {

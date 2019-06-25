@@ -28,13 +28,13 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/welcome">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/project-list">Projects</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Tasks</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/task-list">Tasks</a>
             </li>
         </ul>
         <span class="nav-item">

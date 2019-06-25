@@ -4,11 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
-@Setter
 public class Task extends BaseEntity {
 
     @NotNull
     private String projectId;
 
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
 }

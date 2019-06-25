@@ -30,6 +30,9 @@ public class UserRegisterServlet extends HttpServlet {
         @NotNull final String login = req.getParameter("login");
         @NotNull final String password = req.getParameter("password");
         StringValidator.validate(login, password);
+        if (login.equals(userService.findByLogin(login).getLogin())) {
+            resp.sendError(406, "SUCH LOGIN ALREADY EXIST. PLEASE, TRY AGAIN.");
+        }
         @NotNull final User user = new User(login, password, Role.USER);
         userService.persist(user);
         req.getSession().setAttribute("userId", user.getId());

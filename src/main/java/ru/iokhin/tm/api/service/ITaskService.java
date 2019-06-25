@@ -1,6 +1,22 @@
 package ru.iokhin.tm.api.service;
 
+import org.jetbrains.annotations.NotNull;
+import ru.iokhin.tm.api.repositroy.IRepository;
 import ru.iokhin.tm.api.repositroy.ITaskRepository;
+import ru.iokhin.tm.model.Task;
 
-public interface ITaskService extends ITaskRepository {
+import java.util.List;
+
+public interface ITaskService extends IRepository<Task> {
+
+    public List<Task> findAllByUserId(@NotNull String userId);
+
+    public void removeAllByUserId(@NotNull String userId);
+
+    public List<Task> sortByUserId(@NotNull String userId, @NotNull String parametr);
+
+    public List<Task> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord);
+
+    public List<Task> findAllByProjectId(@NotNull String userId, @NotNull String projectId);
+
 }
