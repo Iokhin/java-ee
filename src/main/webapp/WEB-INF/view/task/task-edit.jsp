@@ -56,21 +56,13 @@
         <tr>
             <td>Project:</td>
             <td>
-<%--                <select class="form-control" name="projectId" id="inputProject">--%>
-<%--                    <% for (@NotNull Project project : (Collection<Project>) request.getAttribute(FieldConstant.PROJECTS)) {%>--%>
-<%--                    <option value="<%=project.getId()%>" <%--%>
-<%--                        if (project.getId().equals(task.getProjectId()))--%>
-<%--                            out.print("selected");--%>
-<%--                    %>><%=project.getName()%>--%>
-<%--                    </option>--%>
-<%--                    <%}%>--%>
-<%--                </select>--%>
-                                <select class="form-control" name="projectId" id="inputProject">
-                                    <%for (@NotNull Project project : ProjectRepository.INSTANCE.findAll()) {%>
-                                    <option <%if (project.getId().equals(task.getProjectId())) out.print("selected");%>><%=project.getId()%>
-                                    </option>
-                                    <%}%>
-                                </select>
+                <select class="form-control" name="projectId" id="inputProject">
+                    <%for (@NotNull Project project : ProjectRepository.INSTANCE.findAllByUserId(session.getAttribute("userId").toString())) {%>
+                    <option value="<%=project.getId()%>" name="projectId" selected="selected">
+                        <%=project.getName()%>
+                    </option>
+                    <%}%>
+                </select>
             </td>
         </tr>
         <tr>
@@ -78,52 +70,10 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <button type="submit">Save</button>
+                <button class="btn btn-md btn-outline-info" type="submit">Save</button>
             </td>
         </tr>
     </table>
 </form>
-
-<%--<form id="project-edit-form">--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputName3" class="col-sm-2 col-form-label">Name</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="text" class="form-control" id="inputName3" placeholder="Name">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDescription3" class="col-sm-2 col-form-label">Description</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="text" class="form-control" id="inputDescription3" placeholder="Description">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputStatus3" class="col-sm-2 col-form-label">Status</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <select class="form-control" id="inputStatus3">--%>
-<%--                <option>PLANNING</option>--%>
-<%--                <option>PROCESSING</option>--%>
-<%--                <option>READY</option>--%>
-<%--            </select>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDateStart3" class="col-sm-2 col-form-label">Date start</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="date" id="inputDateStart3" name="dateStart">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDateEnd3" class="col-sm-2 col-form-label">Date end</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="date" id="inputDateEnd3" name="dateEnd">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <button type="submit" class="btn btn-primary">Sign in</button>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</form>--%>
 </body>
 </html>

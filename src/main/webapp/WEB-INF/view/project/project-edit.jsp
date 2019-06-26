@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <button type="submit">Save</button>
+                <button class="btn btn-md btn-outline-info" type="submit">Save</button>
             </td>
         </tr>
     </table>

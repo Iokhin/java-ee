@@ -22,31 +22,19 @@ import java.io.IOException;
 public class TaskCreateServlet extends HttpServlet {
 
     @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
-    @NotNull
     private final ITaskService taskService = TaskService.INSTANCE;
-
-    @NotNull
-    private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            Task task = new Task();
-            task.setName("NEW TASK");
-            task.setDescription("NEW DESCRIPTION");
-            task.setUserId(session.getAttribute("userId").toString());
-            @NotNull final String projectId = req.getParameter("id");
-            task.setProjectId(projectId);
-            taskService.persist(task);
-            resp.sendRedirect("/task-list?id=" + projectId);
+        Task task = new Task();
+        task.setName("NEW TASK");
+        task.setDescription("NEW DESCRIPTION");
+        task.setUserId(session.getAttribute("userId").toString());
+        @NotNull final String projectId = req.getParameter("id");
+        task.setProjectId(projectId);
+        taskService.persist(task);
+        resp.sendRedirect("/task-list?id=" + projectId);
 //            req.getRequestDispatcher("/WEB-INF/view/task/task-list.jsp").forward(req, resp);
-        } catch (AuthException e) {
-            e.printStackTrace();
-            resp.sendRedirect("/login");
-        }
     }
 }

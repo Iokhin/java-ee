@@ -9,14 +9,16 @@ import java.util.List;
 
 public interface ITaskService extends IRepository<Task> {
 
-    public List<Task> findAllByUserId(@NotNull String userId);
+    List<Task> findAllByUserId(@NotNull String userId);
 
-    public void removeAllByUserId(@NotNull String userId);
+    void removeAllByUserId(@NotNull String userId);
 
-    public List<Task> sortByUserId(@NotNull String userId, @NotNull String parametr);
+    List<Task> sortByUserId(@NotNull String userId, @NotNull String parametr);
 
-    public List<Task> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord);
+    List<Task> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord);
 
-    public List<Task> findAllByProjectId(@NotNull String userId, @NotNull String projectId);
+    List<Task> findAllByProjectId(@NotNull String userId, @NotNull String projectId);
+
+    Task findOneByUserId(@NotNull String userId, @NotNull String id);
 
 }

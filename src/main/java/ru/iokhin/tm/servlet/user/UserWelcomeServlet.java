@@ -18,11 +18,11 @@ public class UserWelcomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            sessionService.validateSession(req.getSession());
-            req.getRequestDispatcher("/WEB-INF/view/welcome.jsp").forward(req, resp);
-        } catch (AuthException e) {
-            resp.sendRedirect("/login");
-        }
+//        try {
+//            sessionService.validateSession(req.getSession());
+            req.getRequestDispatcher("/WEB-INF/view/user/welcome.jsp").forward(req, resp);
+//        } catch (AuthException e) {
+//            resp.sendRedirect("/login");
+//        }
     }
 }

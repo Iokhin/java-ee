@@ -23,19 +23,11 @@ public class ProjectListServlet extends HttpServlet {
     @NotNull
     private final IProjectService projectService = ProjectService.INSTANCE;
 
-    @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            List<Project> projects = projectService.findAllByUserId(session.getAttribute("userId").toString());
-            req.setAttribute("projects", projects);
-            req.getRequestDispatcher("/WEB-INF/view/project/project-list.jsp").forward(req, resp);
-        } catch (AuthException e) {
-            resp.sendRedirect("/login");
-        }
+        List<Project> projects = projectService.findAllByUserId(session.getAttribute("userId").toString());
+        req.setAttribute("projects", projects);
+        req.getRequestDispatcher("/WEB-INF/view/project/project-list.jsp").forward(req, resp);
     }
 }

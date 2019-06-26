@@ -16,5 +16,8 @@
 <h1 class="user-welcome">
    Welcome, <%= request.getSession().getAttribute("userLogin").toString() %>
 </h1>
+<div style="text-align: center">
+    <img src="${pageContext.request.contextPath}/resources/pictures/welcome.png">
+</div>
 </body>
 </html>

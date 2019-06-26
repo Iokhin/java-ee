@@ -56,6 +56,15 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
+    public Task findOneByUserId(@NotNull String userId, @NotNull String id) {
+        StringValidator.validate(userId, id);
+        Task task = findOne(id);
+        if (task.getUserId().equals(userId))
+            return task;
+        return null;
+    }
+
+    @Override
     public Task persist(@NotNull Task entity) {
         return taskRepository.persist(entity);
     }

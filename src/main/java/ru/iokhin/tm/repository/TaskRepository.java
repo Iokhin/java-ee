@@ -16,6 +16,7 @@ public enum TaskRepository implements ITaskRepository {
 
     private TaskRepository() {
         this.repository = new LinkedHashMap<>();
+        generateTasks();
     }
 
     @Override
@@ -77,5 +78,14 @@ public enum TaskRepository implements ITaskRepository {
             }
         }
         return projectList;
+    }
+
+    void generateTasks() {
+        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
+        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
+        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
+        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
+        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
+        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
     }
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 public abstract class AbstractEntity {
 
     @NotNull
-    private final String id = UUID.randomUUID().toString();
+    protected String id = UUID.randomUUID().toString();
 
     public String getId() {
         return id;

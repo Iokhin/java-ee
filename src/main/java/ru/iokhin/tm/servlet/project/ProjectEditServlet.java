@@ -23,13 +23,10 @@ import java.io.IOException;
 public class ProjectEditServlet extends HttpServlet {
 
     @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
-    @NotNull
     private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
-    protected void doGet(final HttpServletRequest req,final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         @Nullable final String projectId = req.getParameter("id");
         @Nullable Project project = null;
         try {
@@ -45,16 +42,10 @@ public class ProjectEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            @NotNull final String projectId = req.getParameter("id");
-            @NotNull final Project project = getProject(req);
-            projectService.merge(project);
-            resp.sendRedirect("/project-list");
-        } catch (Exception e) {
-            resp.sendError(401, e.getMessage());
-        }
+        @NotNull final String projectId = req.getParameter("id");
+        @NotNull final Project project = getProject(req);
+        projectService.merge(project);
+        resp.sendRedirect("/project-list");
     }
 
     private Project getProject(@NotNull final HttpServletRequest req) {

@@ -23,8 +23,8 @@ public enum UserRepository implements IUserRepository {
     }
 
     private void generateUsers() {
-        persist(new User("user", "user", Role.USER));
-        persist(new User("admin", "admin", Role.ADMIN));
+        persist(new User("58607299-b756-4f72-922d-07e3c9f1448d", "user", "user", Role.USER));
+        persist(new User("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e", "admin", "admin", Role.ADMIN));
     }
 
     @Override

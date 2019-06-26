@@ -1,10 +1,17 @@
 package ru.iokhin.tm.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class Task extends BaseEntity {
+
+    public Task() {
+    }
+
+    public Task(@NotNull final String userId) {
+        this.userId = userId;
+        this.name = "NEW TASK";
+        this.description = "NEW DESCRIPTION";
+    }
 
     @NotNull
     private String projectId;

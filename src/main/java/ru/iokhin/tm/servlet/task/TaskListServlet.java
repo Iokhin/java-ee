@@ -23,29 +23,17 @@ import java.util.List;
 public class TaskListServlet extends HttpServlet {
 
     @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
-    @NotNull
     private final ITaskService taskService = TaskService.INSTANCE;
-
-    @NotNull
-    private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            @NotNull final String projectId = req.getParameter("id");
-            @NotNull final String userId = session.getAttribute("userId").toString();
-            List<Task> tasks = (projectId == null || projectId.isEmpty()) ? taskService.findAllByUserId(userId) : taskService
-                    .findAllByProjectId(userId, projectId);
-            req.setAttribute("tasks", tasks);
-            req.setAttribute("id", projectId);
-            req.getRequestDispatcher("/WEB-INF/view/task/task-list.jsp").forward(req, resp);
-        } catch (AuthException e) {
-            resp.sendRedirect("/login");
-        }
+        @NotNull final String projectId = req.getParameter("id");
+        @NotNull final String userId = session.getAttribute("userId").toString();
+        List<Task> tasks = (projectId == null || projectId.isEmpty()) ? taskService.findAllByUserId(userId) : taskService
+                .findAllByProjectId(userId, projectId);
+        req.setAttribute("tasks", tasks);
+        req.setAttribute("id", projectId);
+        req.getRequestDispatcher("/WEB-INF/view/task/task-list.jsp").forward(req, resp);
     }
-
 }

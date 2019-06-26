@@ -24,13 +24,7 @@ import java.io.IOException;
 public class TaskEditServlet extends HttpServlet {
 
     @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
-    @NotNull
     private final ITaskService taskService = TaskService.INSTANCE;
-
-    @NotNull
-    private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
@@ -49,16 +43,10 @@ public class TaskEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            @NotNull final String taskId = req.getParameter("id");
-            @NotNull final Task task = getTask(req);
-            taskService.merge(task);
-            resp.sendRedirect("/task-list");
-        } catch (Exception e) {
-            resp.sendError(401, e.getMessage());
-        }
+        @NotNull final String taskId = req.getParameter("id");
+        @NotNull final Task task = getTask(req);
+        taskService.merge(task);
+        resp.sendRedirect("/task-list");
     }
 
     private Task getTask(@NotNull final HttpServletRequest req) {

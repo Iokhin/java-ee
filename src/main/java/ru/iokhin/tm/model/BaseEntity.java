@@ -1,7 +1,5 @@
 package ru.iokhin.tm.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.iokhin.tm.enumerated.Status;
@@ -11,22 +9,22 @@ import java.util.Date;
 public class BaseEntity extends AbstractEntity {
 
     @NotNull
-    private String userId = "";
+    protected String userId = "";
 
     @Nullable
-    private String name;
+    protected String name;
 
     @Nullable
-    private String description;
+    protected String description;
 
     @Nullable
-    private Status status;
+    protected Status status;
 
     @Nullable
-    private Date dateStart;
+    protected Date dateStart;
 
     @Nullable
-    private Date dateEnd;
+    protected Date dateEnd;
 
     public String getUserId() {
         return userId;

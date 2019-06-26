@@ -27,8 +27,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/welcome">Home<span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/user-edit">Profile<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/project-list">Projects</a>

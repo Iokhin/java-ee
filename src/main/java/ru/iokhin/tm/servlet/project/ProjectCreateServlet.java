@@ -24,24 +24,16 @@ import java.io.IOException;
 public class ProjectCreateServlet extends HttpServlet {
 
     @NotNull
-    private final ISessionService sessionService = SessionService.INSTANCE;
-
-    @NotNull
     private final IProjectService projectService = ProjectService.INSTANCE;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        try {
-            sessionService.validateSession(session);
-            Project project = new Project();//getProject(req);
-            project.setName("NEW PROJECT");
-            project.setDescription("NEW DESCRIPTION");
-            project.setUserId(session.getAttribute("userId").toString());
-            projectService.persist(project);
-            resp.sendRedirect("/project-list");
-        } catch (AuthException e) {
-            resp.sendRedirect("/login");
-        }
+        Project project = new Project();//getProject(req);
+        project.setName("NEW PROJECT");
+        project.setDescription("NEW DESCRIPTION");
+        project.setUserId(session.getAttribute("userId").toString());
+        projectService.persist(project);
+        resp.sendRedirect("/project-list");
     }
 }

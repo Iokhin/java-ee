@@ -23,7 +23,7 @@ public class UserLoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/user/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UserLoginServlet extends HttpServlet {
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", user.getId());
             session.setAttribute("userLogin", user.getLogin());
-            resp.sendRedirect("/welcome");
+            resp.sendRedirect("/project-list");
         } catch (AuthException e) {
             resp.sendError(401, e.getMessage());
         }
