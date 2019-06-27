@@ -1,27 +1,29 @@
 package ru.iokhin.tm.service;
 
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.exception.AuthException;
 import ru.iokhin.tm.model.User;
-import ru.iokhin.tm.repository.UserRepository;
 import ru.iokhin.tm.util.MD5Util;
 import ru.iokhin.tm.util.StringValidator;
 
 import java.util.Collection;
 
-public enum UserService implements IUserService {
-
-    INSTANCE;
+@NoArgsConstructor
+@Service(UserService.NAME)
+public class UserService implements IUserService {
 
     @NotNull
-    private final IUserRepository userRepository;
+    public static final String NAME = "userService";
 
-    UserService() {
-        this.userRepository = UserRepository.INSTANCE;
-    }
+    @NotNull
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public User findByLogin(@NotNull String login) {

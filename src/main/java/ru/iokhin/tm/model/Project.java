@@ -1,7 +1,9 @@
 package ru.iokhin.tm.model;
 
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@NoArgsConstructor
 public class Project extends BaseEntity {
     @Override
     public String toString() {
@@ -12,8 +14,5 @@ public class Project extends BaseEntity {
         this.userId = userId;
         this.name = "NEW PROJECT";
         this.description = "NEW DESCRIPTION";
-    }
-
-    public Project() {
     }
 }

@@ -2,10 +2,11 @@ package ru.iokhin.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.iokhin.tm.api.repositroy.IProjectRepository;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.model.Project;
-import ru.iokhin.tm.repository.ProjectRepository;
 import ru.iokhin.tm.util.ComparatorUtil;
 import ru.iokhin.tm.util.StringValidator;
 
@@ -13,12 +14,15 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public enum ProjectService implements IProjectService {
-
-    INSTANCE;
+@Service(ProjectService.NAME)
+public class ProjectService implements IProjectService {
 
     @NotNull
-    private final IProjectRepository projectRepository = ProjectRepository.INSTANCE;
+    public static final String NAME = "projectService";
+
+    @NotNull
+    @Autowired
+    private IProjectRepository projectRepository;
 
     @Override
     public List<Project> findAllByUserId(@NotNull final String userId) {
@@ -52,6 +56,7 @@ public enum ProjectService implements IProjectService {
     @Override
     public Project findOneById(@NotNull final String userId, @NotNull final String id) {
         Project project = findOne(id);
+        if (project == null) return null;
         if (!project.getUserId().equals(userId)) return null;
         return project;
     }

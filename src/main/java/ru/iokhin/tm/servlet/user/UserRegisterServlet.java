@@ -1,6 +1,7 @@
 package ru.iokhin.tm.servlet.user;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.enumerated.Role;
 import ru.iokhin.tm.model.User;
@@ -18,7 +19,8 @@ import java.io.IOException;
 public class UserRegisterServlet extends HttpServlet {
 
     @NotNull
-    private final IUserService userService = UserService.INSTANCE;
+    @Autowired
+    private IUserService userService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -14,8 +14,6 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/welcome")
 public class UserWelcomeServlet extends HttpServlet {
 
-    ISessionService sessionService = SessionService.INSTANCE;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        try {

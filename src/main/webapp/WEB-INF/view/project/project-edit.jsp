@@ -3,22 +3,15 @@
 <%@ page import="org.jetbrains.annotations.NotNull" %>
 <%@ page import="ru.iokhin.tm.util.FieldConstant" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: iokhin
-  Date: 24.06.2019
-  Time: 12:05
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
 <html>
 <head>
     <title>Project edit</title>
 </head>
+<% Project project = (Project) request.getAttribute("project"); %>
 <c:set var="project" value="${requestScope.project}"/>
 <body>
-<% Project project = (Project) request.getAttribute("project"); %>
 <form action="${pageContext.request.contextPath}/project-edit" method="post" id="project-edit-form"
       style=" display: flex; justify-content: center;">
     <table class="table table-borderless col-md-6">
@@ -60,47 +53,5 @@
         </tr>
     </table>
 </form>
-
-<%--<form id="project-edit-form">--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputName3" class="col-sm-2 col-form-label">Name</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="text" class="form-control" id="inputName3" placeholder="Name">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDescription3" class="col-sm-2 col-form-label">Description</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="text" class="form-control" id="inputDescription3" placeholder="Description">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputStatus3" class="col-sm-2 col-form-label">Status</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <select class="form-control" id="inputStatus3">--%>
-<%--                <option>PLANNING</option>--%>
-<%--                <option>PROCESSING</option>--%>
-<%--                <option>READY</option>--%>
-<%--            </select>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDateStart3" class="col-sm-2 col-form-label">Date start</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="date" id="inputDateStart3" name="dateStart">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <label for="inputDateEnd3" class="col-sm-2 col-form-label">Date end</label>--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <input type="date" id="inputDateEnd3" name="dateEnd">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="form-group row">--%>
-<%--        <div class="col-sm-10">--%>
-<%--            <button type="submit" class="btn btn-primary">Sign in</button>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</form>--%>
 </body>
 </html>

@@ -2,10 +2,11 @@ package ru.iokhin.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.iokhin.tm.api.repositroy.ITaskRepository;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.model.Task;
-import ru.iokhin.tm.repository.TaskRepository;
 import ru.iokhin.tm.util.ComparatorUtil;
 import ru.iokhin.tm.util.StringValidator;
 
@@ -14,12 +15,15 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public enum TaskService implements ITaskService {
-
-    INSTANCE;
+@Service(TaskService.NAME)
+public class TaskService implements ITaskService {
 
     @NotNull
-    private final ITaskRepository taskRepository = TaskRepository.INSTANCE;
+    public static final String NAME = "taskService";
+
+    @NotNull
+    @Autowired
+    private ITaskRepository taskRepository;
 
     @Override
     public List<Task> findAllByUserId(@NotNull String userId) {

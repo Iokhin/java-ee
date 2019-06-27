@@ -2,14 +2,17 @@ package ru.iokhin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.IProjectRepository;
 import ru.iokhin.tm.model.Project;
 
 import java.util.*;
 
-public enum ProjectRepository implements IProjectRepository {
+@Repository(ProjectRepository.NAME)
+public class ProjectRepository implements IProjectRepository {
 
-    INSTANCE;
+    @NotNull
+    public static final String NAME = "projectRepository";
 
     @NotNull
     private Map<String, Project> repository;

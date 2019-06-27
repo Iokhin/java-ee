@@ -6,13 +6,6 @@
 <%@ page import="ru.iokhin.tm.repository.ProjectRepository" %>
 <%@ page import="java.util.Collection" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: iokhin
-  Date: 24.06.2019
-  Time: 12:05
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
 <html>
@@ -20,6 +13,7 @@
     <title>Task edit</title>
 </head>
 <c:set var="task" value="${requestScope.task}"/>
+<c:set var="task" value="${requestScope.taskService}"/>
 <body>
 <% Task task = (Task) request.getAttribute("task"); %>
 <form action="${pageContext.request.contextPath}/task-edit" method="post" id="project-edit-form"

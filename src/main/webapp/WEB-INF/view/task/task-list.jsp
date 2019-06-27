@@ -1,15 +1,9 @@
-<%@ page import="org.jetbrains.annotations.NotNull" %><%--
-  Created by IntelliJ IDEA.
-  User: qoper
-  Date: 21.06.19
-  Time: 18:12
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="org.jetbrains.annotations.NotNull" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
-<c:set var="tasks" value="${requestScope.tasks}"/>
-<c:set var="projectId" value="${requestScope.id}"/>
+<c:set var="tasks" value="${tasks}"/>
+<c:set var="projectId" value="${id}"/>
 <html>
 <head>
     <title>Task list</title>

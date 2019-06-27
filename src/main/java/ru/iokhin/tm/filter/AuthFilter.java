@@ -1,6 +1,7 @@
 package ru.iokhin.tm.filter;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.iokhin.tm.api.service.ISessionService;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.exception.AuthException;
@@ -20,7 +21,8 @@ import java.io.IOException;
 public class AuthFilter implements Filter {
 
     @NotNull
-    final private IUserService userService = UserService.INSTANCE;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

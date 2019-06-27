@@ -1,7 +1,8 @@
 package ru.iokhin.tm.repository;
 
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.enumerated.Role;
 import ru.iokhin.tm.model.User;
@@ -10,16 +11,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum UserRepository implements IUserRepository {
+@Repository(UserRepository.NAME)
+public class UserRepository implements IUserRepository {
 
-    INSTANCE;
+    @NotNull
+    public static final String NAME = "userRepository";
 
     @NotNull
     private final Map<String, User> repository;
 
-    private UserRepository() {
+    UserRepository() {
         this.repository = new HashMap<>();
         generateUsers();
+        System.out.println(repository.values());
     }
 
     private void generateUsers() {

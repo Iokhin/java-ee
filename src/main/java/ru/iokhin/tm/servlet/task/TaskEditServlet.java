@@ -2,6 +2,7 @@ package ru.iokhin.tm.servlet.task;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.api.service.ISessionService;
 import ru.iokhin.tm.api.service.ITaskService;
@@ -24,7 +25,8 @@ import java.io.IOException;
 public class TaskEditServlet extends HttpServlet {
 
     @NotNull
-    private final ITaskService taskService = TaskService.INSTANCE;
+    @Autowired
+    private ITaskService taskService;
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

@@ -1,15 +1,17 @@
 package ru.iokhin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.ITaskRepository;
 import ru.iokhin.tm.model.Task;
-import ru.iokhin.tm.model.User;
 
 import java.util.*;
 
-public enum TaskRepository implements ITaskRepository {
+@Repository(TaskRepository.NAME)
+public class TaskRepository implements ITaskRepository {
 
-    INSTANCE;
+    @NotNull
+    public static final String NAME = "taskRepository";
 
     @NotNull
     private final Map<String, Task> repository;
