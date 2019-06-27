@@ -24,6 +24,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
+        <th scope="col">Status</th>
         <th scope="col" colspan="2" style="text-align: center">Options</th>
     </tr>
     </thead>
@@ -34,6 +35,7 @@
             <td scope="row">${task.getId()}</td>
             <td scope="row">${task.getName()}</td>
             <td scope="row">${task.getDescription()}</td>
+            <td scope="row">${task.getStatus()}</td>
             <td scope="row" class="project-btn">
                 <a href="${pageContext.request.contextPath}/task-edit?id=${task.getId()}">
                     <button type="submit" class="btn btn-outline-warning btn-small">

@@ -18,7 +18,7 @@ public class BaseEntity extends AbstractEntity {
     protected String description;
 
     @Nullable
-    protected Status status;
+    protected Status status = Status.PLANNING;
 
     @Nullable
     protected Date dateStart;

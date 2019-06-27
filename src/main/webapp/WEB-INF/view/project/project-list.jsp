@@ -23,6 +23,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
+        <th scope="col">Status</th>
         <th scope="col" colspan="3" style="text-align: center">Options</th>
     </tr>
     </thead>
@@ -33,6 +34,7 @@
             <td scope="row">${project.getId()}</td>
             <td scope="row">${project.getName()}</td>
             <td scope="row">${project.getDescription()}</td>
+            <td scope="row">${project.getStatus()}</td>
             <td scope="row" class="project-btn">
                 <a href="${pageContext.request.contextPath}/project-edit?id=${project.getId()}">
                     <button type="submit" class="btn btn-outline-warning btn-small">
