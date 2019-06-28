@@ -1,12 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: qoper
-  Date: 22.06.19
-  Time: 10:42
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
+<c:set var="user" value="${requestScope.user}"/>
+<c:set var="userId" value="${requestScope.userId}"/>
 <html>
 <head>
     <title>Registration form</title>
@@ -20,13 +16,18 @@
 <div id="login-form">
 <form action="${pageContext.request.contextPath}/user-edit" method="post">
     <div class="form-group">
-        <label for="inputLogin">New login</label>
-        <input type="text" class="form-control" id="inputLogin" placeholder="login" name="login" value="${sessionScope.get("userLogin")}">
+        <label for="inputEmail">E-mail</label>
+        <input type="email" class="form-control" id="inputEmail" placeholder="e-mail" name="email" value="${user.getEmail()}">
     </div>
     <div class="form-group">
-        <label for="inputPassword">New password</label>
+        <label for="inputLogin">Login</label>
+        <input type="text" class="form-control" id="inputLogin" placeholder="login" name="login" value="${user.getLogin()}">
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
         <input type="password" class="form-control" id="inputPassword" placeholder="password" name="password">
     </div>
+    <input type="text" hidden name="userId" value="${userId}">
     <div style="display: flex; justify-content: center;">
         <button type="submit" class="btn btn-outline-primary">Save</button>
     </div>

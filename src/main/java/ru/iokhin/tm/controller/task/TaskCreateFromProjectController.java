@@ -13,19 +13,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class TaskCreateController extends HttpServlet {
+public class TaskCreateFromProjectController extends HttpServlet {
 
     @NotNull
     @Autowired
     private ITaskService taskService;
 
-    @GetMapping("/task-create")
+    @GetMapping("/task-create/from-project")
     public String taskCreate(@RequestParam(required = false) @Nullable String id,
                              @NotNull final HttpSession session) {
         @NotNull final String userId = session.getAttribute("userId").toString();
         @NotNull final Task task = new Task(userId);
         task.setProjectId(id);
         taskService.persist(task);
-        return "redirect:/task-list";
+        return "redirect:/task-list/by-project?id=" + id;
     }
 }

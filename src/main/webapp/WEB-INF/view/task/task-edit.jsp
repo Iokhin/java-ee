@@ -1,10 +1,6 @@
-<%@ page import="ru.iokhin.tm.model.Project" %>
 <%@ page import="ru.iokhin.tm.enumerated.Status" %>
 <%@ page import="org.jetbrains.annotations.NotNull" %>
-<%@ page import="ru.iokhin.tm.util.FieldConstant" %>
 <%@ page import="ru.iokhin.tm.model.Task" %>
-<%@ page import="ru.iokhin.tm.repository.ProjectRepository" %>
-<%@ page import="java.util.Collection" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
@@ -13,7 +9,7 @@
     <title>Task edit</title>
 </head>
 <c:set var="task" value="${requestScope.task}"/>
-<c:set var="task" value="${requestScope.taskService}"/>
+<c:set var="projects" value="${requestScope.projects}"/>
 <body>
 <% Task task = (Task) request.getAttribute("task"); %>
 <form action="${pageContext.request.contextPath}/task-edit" method="post" id="project-edit-form"
@@ -39,7 +35,7 @@
         <tr>
             <td>Status:</td>
             <td>
-                <select class="form-control" name="<%=FieldConstant.STATUS%>" id="inputStatus">
+                <select class="form-control" name="status" id="inputStatus">
                     <%for (@NotNull Status status : Status.values()) {%>
                     <option <%if (status == task.getStatus()) out.print("selected");%>><%=status%>
                     </option>
@@ -51,11 +47,11 @@
             <td>Project:</td>
             <td>
                 <select class="form-control" name="projectId" id="inputProject">
-                    <%for (@NotNull Project project : ProjectRepository.INSTANCE.findAllByUserId(session.getAttribute("userId").toString())) {%>
-                    <option value="<%=project.getId()%>" name="projectId" selected="selected">
-                        <%=project.getName()%>
-                    </option>
-                    <%}%>
+                    <c:forEach var="project" items="${projects}" varStatus="iterator">
+                        <option value="${project.getId()}">
+                                ${project.getName()}
+                        </option>
+                    </c:forEach>
                 </select>
             </td>
         </tr>

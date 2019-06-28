@@ -37,7 +37,7 @@
                 </a>
             </td>
             <td scope="row" class="project-btn">
-                <a href="${pageContext.request.contextPath}/task-remove/from-project?id=${task.getId()}">
+                <a href="${pageContext.request.contextPath}/task-remove?id=${task.getId()}">
                     <button type="submit" class="btn btn-outline-danger btn-small">
                         <i class=" fa fa-trash-o"></i>
                     </button>
@@ -48,7 +48,7 @@
     </tbody>
 </table>
 <div class="new-task">
-    <a href="${pageContext.request.contextPath}/task-create/from-project?id=${projectId}">
+    <a href="${pageContext.request.contextPath}/task-create?id=${projectId}">
         <button type="submit" class="btn btn-outline-success">create new task
         </button>
     </a>

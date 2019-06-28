@@ -43,7 +43,7 @@
                 </a>
             </td>
             <td scope="row" class="project-btn">
-                <a href="${pageContext.request.contextPath}/task-list?id=${project.getId()}">
+                <a href="${pageContext.request.contextPath}/task-list/by-project?id=${project.getId()}">
                     <button type="submit" class="btn btn-outline-success btn-small">
                         <i class="fa fa-calendar-check-o"></i>
                     </button>

@@ -21,13 +21,11 @@ public class TaskListController {
     private ITaskService taskService;
 
     @GetMapping("/task-list")
-    protected String taskList(@RequestParam(required = false) @Nullable final String id,
-            @NotNull final HttpSession session, @NotNull final Model model) {
+    protected String taskList(@NotNull final HttpSession session, @NotNull final Model model) {
         @NotNull final String userId = session.getAttribute("userId").toString();
-        List<Task> tasks = (id == null || id.isEmpty()) ? taskService.findAllByUserId(userId) :
-                taskService.findAllByProjectId(userId, id);
+        List<Task> tasks = taskService.findAllByUserId(userId);
         model.addAttribute("tasks", tasks);
-        model.addAttribute("id", id);
-        return "task/task-list";
+        model.addAttribute("id", "");
+        return "task/task-list-all";
     }
 }

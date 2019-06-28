@@ -1,14 +1,23 @@
 package ru.iokhin.tm.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.iokhin.tm.enumerated.Role;
 import ru.iokhin.tm.util.MD5Util;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class User extends AbstractEntity {
 
     @Nullable
     private String login;
+
+    @Nullable
+    private String email;
 
     @Nullable
     private String passwordHash;
@@ -29,30 +38,4 @@ public class User extends AbstractEntity {
         this.role = role;
     }
 
-    public User() {
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

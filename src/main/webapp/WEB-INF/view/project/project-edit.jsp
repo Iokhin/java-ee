@@ -1,7 +1,6 @@
 <%@ page import="ru.iokhin.tm.model.Project" %>
 <%@ page import="ru.iokhin.tm.enumerated.Status" %>
 <%@ page import="org.jetbrains.annotations.NotNull" %>
-<%@ page import="ru.iokhin.tm.util.FieldConstant" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
@@ -35,7 +34,7 @@
         <tr>
             <td>Status:</td>
             <td>
-                <select class="form-control" name="<%=FieldConstant.STATUS%>" id="inputStatus">
+                <select class="form-control" name="status" id="inputStatus">
                     <%for (@NotNull Status status : Status.values()) {%>
                     <option <%if (status == project.getStatus()) out.print("selected");%>><%=status%>
                     </option>

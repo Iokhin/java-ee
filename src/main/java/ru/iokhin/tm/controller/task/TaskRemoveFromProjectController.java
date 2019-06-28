@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.model.Task;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class TaskCreateController extends HttpServlet {
+public class TaskRemoveFromProjectController {
 
     @NotNull
     @Autowired
     private ITaskService taskService;
 
-    @GetMapping("/task-create")
-    public String taskCreate(@RequestParam(required = false) @Nullable String id,
-                             @NotNull final HttpSession session) {
+    @GetMapping("/task-remove/from-project")
+    public String projectRemove(@RequestParam @Nullable final String id, @NotNull final HttpSession session) throws Exception {
+        if (id == null) throw new IllegalArgumentException("PROJECT ID IS NULL");
         @NotNull final String userId = session.getAttribute("userId").toString();
-        @NotNull final Task task = new Task(userId);
-        task.setProjectId(id);
-        taskService.persist(task);
-        return "redirect:/task-list";
+        @Nullable final Task task = taskService.findOneByUserId(userId, id);
+        if (task == null) throw new Exception("NO SUCH TASK");
+        @NotNull final String projectId = task.getProjectId();
+        taskService.remove(task);
+        return "redirect:/task-list/by-project?id=" + projectId;
     }
 }

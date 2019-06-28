@@ -10,16 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.exception.AuthException;
 import ru.iokhin.tm.model.User;
-import ru.iokhin.tm.service.UserService;
 import ru.iokhin.tm.util.StringValidator;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @Controller
 public class UserLoginController {
