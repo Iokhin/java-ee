@@ -4,9 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import ru.iokhin.tm.api.service.ISessionService;
-import ru.iokhin.tm.enumerated.Role;
 import ru.iokhin.tm.exception.AuthException;
-import ru.iokhin.tm.model.User;
 
 import javax.servlet.http.HttpSession;
 

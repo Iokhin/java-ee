@@ -3,8 +3,17 @@ package ru.iokhin.tm.repository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.ITaskRepository;
-import ru.iokhin.tm.model.Task;
+import ru.iokhin.tm.model.entity.Project;
+import ru.iokhin.tm.model.entity.Task;
+import ru.iokhin.tm.model.entity.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 @Repository(TaskRepository.NAME)
@@ -13,81 +22,86 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     public static final String NAME = "taskRepository";
 
-    @NotNull
-    private final Map<String, Task> repository;
+    @PersistenceContext
+    private EntityManager em;
 
-    private TaskRepository() {
-        this.repository = new LinkedHashMap<>();
-        generateTasks();
+    @Override
+    public List<Task> findAllByUserId(@NotNull User user) {
+        return em.createQuery("SELECT e FROM Task e WHERE e.user = :user", Task.class)
+                .setParameter("user", user)
+                .getResultList();
     }
 
     @Override
-    public List<Task> findAllByUserId(@NotNull String userId) {
-        List<Task> tasks = new ArrayList<>();
-        for (Task task : repository.values()) {
-            if (task.getUserId().equals(userId))
-                tasks.add(task);
-        }
-        return tasks;
+    public void removeAllByUserId(@NotNull User user) {
+        @NotNull final List<Task> tasks = findAllByUserId(user);
+        if (tasks.size() == 0) return;
+        tasks.forEach(em::remove);
     }
 
     @Override
-    public void removeAllByUserId(@NotNull String userId) {
-        for (Task project : findAllByUserId(userId)) {
-            repository.remove(project.getId());
-        }
+    public void persist(@NotNull final Task entity) {
+        em.persist(entity);
     }
 
     @Override
-    public Task persist(@NotNull final Task entity) {
-        return repository.put(entity.getId(), entity);
+    public void merge(@NotNull final Task entity) {
+        em.merge(entity);
     }
 
     @Override
-    public Task merge(@NotNull final Task entity) {
-        return repository.put(entity.getId(), entity);
-    }
-
-    @Override
-    public Task remove(@NotNull final Task entity) {
-        return repository.remove(entity.getId());
+    public void removeById(@NotNull String id) {
+        em.remove(em.find(Task.class, id));
     }
 
     @Override
     public Task findOne(@NotNull final String id) {
-        return repository.get(id);
+        return em.find(Task.class, id);
     }
 
     @Override
-    public Collection<Task> findAll() {
-        return repository.values();
+    public List<Task> findAll() {
+        return em.createQuery("SELECT e FROM Task e", Task.class).getResultList();
     }
 
     @Override
-    public List<Task> sortByUserId(@NotNull final String userId, @NotNull final Comparator<Task> comparator) {
-        List<Task> projectList = new ArrayList<>(findAllByUserId(userId));
-        projectList.sort(comparator);
-        return projectList;
+    public List<Task> sortByUserId(@NotNull final User user, @NotNull final String parameter) {
+        @NotNull final CriteriaBuilder cb = em.getCriteriaBuilder();
+        @NotNull final CriteriaQuery<Task> cq = cb.createQuery(Task.class);
+        @NotNull final Root<Task> taskRoot = cq.from(Task.class);
+        @NotNull final Predicate condition = cb.equal(taskRoot.get("user"), user);
+        cb.conjunction();
+        cq.select(taskRoot).where(condition);
+        cq.orderBy(cb.desc(taskRoot.get(parameter)));
+        @NotNull final TypedQuery<Task> query = em.createQuery(cq);
+        return query.getResultList();
     }
 
     @Override
-    public List<Task> findByPartOfNameOrDescription(@NotNull final String userId, @NotNull final String keyWord) {
-        List<Task> projectList = new ArrayList<>(0);
-        for (Task project : findAllByUserId(userId)) {
-            if (project.getName().toLowerCase().contains(keyWord.toLowerCase()) ||
-                    project.getDescription().toLowerCase().contains(keyWord.toLowerCase())) {
-                projectList.add(project);
-            }
-        }
-        return projectList;
+    public List<Task> findByPartOfNameOrDescription(@NotNull final User user, @NotNull final String keyWord) {
+        return em.createQuery("SELECT p FROM Task p WHERE p.user = :user AND " +
+                "(p.name LIKE :part OR p.description LIKE :part)", Task.class)
+                .setParameter("user", user)
+                .setParameter("part", "%" + keyWord + "%")
+                .getResultList();
     }
 
-    void generateTasks() {
-        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Task("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
-        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
-        persist(new Task("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
+    @Override
+    public Task findOneByUserId(@NotNull User user, @NotNull String id) {
+        final List<Task> tasks = em.createQuery("SELECT e FROM Task e WHERE e.user = :user AND e.id = :id", Task.class)
+                .setParameter("user", user)
+                .setParameter("id", id)
+                .getResultList();
+        if (tasks.size() > 0) return tasks.get(0);
+        return null;
     }
+
+    @Override
+    public List<Task> findAllByProjectId(@NotNull User user, @NotNull Project project) {
+        return em.createQuery("SELECT e FROM Task e WHERE e.user = :user AND e.project = :project", Task.class)
+                .setParameter("user", user)
+                .setParameter("project", project)
+                .getResultList();
+    }
+
 }

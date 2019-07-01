@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.exception.AuthException;
-import ru.iokhin.tm.model.User;
+import ru.iokhin.tm.model.dto.UserDTO;
+import ru.iokhin.tm.model.entity.User;
 import ru.iokhin.tm.util.StringValidator;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +33,7 @@ public class UserLoginController {
                            @NotNull final HttpSession session) {
         try {
             StringValidator.validate(login, password);
-            User user = userService.authUser(login, password);
+            UserDTO user = userService.authUser(login, password);
             session.setAttribute("userId", user.getId());
             session.setAttribute("userLogin", user.getLogin());
             return "redirect:/project-list";

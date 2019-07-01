@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.enumerated.Role;
-import ru.iokhin.tm.model.User;
+import ru.iokhin.tm.model.dto.UserDTO;
+import ru.iokhin.tm.model.entity.User;
 import ru.iokhin.tm.util.StringValidator;
 
 import javax.servlet.http.HttpSession;
@@ -31,11 +32,11 @@ public class UserRegisterController {
                            @RequestParam @NotNull final String password,
                            @RequestParam @NotNull final String email) throws Exception {
         StringValidator.validate(login, password);
-        @Nullable final User foundUser = userService.findByLogin(login);
+        @Nullable final UserDTO foundUser = userService.findByLogin(login);
         if (foundUser != null && login.equals(foundUser.getLogin())) {
             throw new Exception("SUCH LOGIN ALREADY EXIST. PLEASE, TRY AGAIN.");
         }
-        @NotNull final User user = new User(login, password, Role.USER);
+        @NotNull final UserDTO user = new UserDTO(login, password, Role.USER);
         user.setEmail(email);
         userService.persist(user);
         session.setAttribute("userId", user.getId());

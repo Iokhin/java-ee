@@ -1,6 +1,6 @@
 <%@ page import="ru.iokhin.tm.enumerated.Status" %>
 <%@ page import="org.jetbrains.annotations.NotNull" %>
-<%@ page import="ru.iokhin.tm.model.Task" %>
+<%@ page import="ru.iokhin.tm.model.dto.TaskDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
@@ -11,7 +11,7 @@
 <c:set var="task" value="${requestScope.task}"/>
 <c:set var="projects" value="${requestScope.projects}"/>
 <body>
-<% Task task = (Task) request.getAttribute("task"); %>
+<% TaskDTO task = (TaskDTO) request.getAttribute("task"); %>
 <form action="${pageContext.request.contextPath}/task-edit" method="post" id="project-edit-form"
       style=" display: flex; justify-content: center;">
     <table class="table table-borderless col-md-6">

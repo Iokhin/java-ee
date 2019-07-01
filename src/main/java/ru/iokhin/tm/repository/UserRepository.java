@@ -1,15 +1,13 @@
 package ru.iokhin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.IUserRepository;
-import ru.iokhin.tm.enumerated.Role;
-import ru.iokhin.tm.model.User;
+import ru.iokhin.tm.model.entity.User;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository(UserRepository.NAME)
 public class UserRepository implements IUserRepository {
@@ -17,51 +15,40 @@ public class UserRepository implements IUserRepository {
     @NotNull
     public static final String NAME = "userRepository";
 
-    @NotNull
-    private final Map<String, User> repository;
-
-    UserRepository() {
-        this.repository = new HashMap<>();
-        generateUsers();
-        System.out.println(repository.values());
-    }
-
-    private void generateUsers() {
-        persist(new User("58607299-b756-4f72-922d-07e3c9f1448d", "user", "user", Role.USER));
-        persist(new User("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e", "admin", "admin", Role.ADMIN));
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public User findByLogin(@NotNull String login) {
-        for (User user : repository.values()) {
-            if (user.getLogin().equals(login))
-                return user;
-        }
-        return null;
+        List<User> user = em.createQuery("SELECT e FROM User e WHERE e.login = :login", User.class)
+                .setParameter("login", login)
+                .getResultList();
+        return user.size() > 0 ? user.get(0) : null;
     }
 
     @Override
-    public User persist(@NotNull User entity) {
-        return repository.put(entity.getId(), entity);
+    public void persist(@NotNull User entity) {
+        em.persist(entity);
     }
 
     @Override
-    public User merge(@NotNull User entity) {
-        return repository.put(entity.getId(), entity);
+    public void merge(@NotNull User entity) {
+        em.merge(entity);
     }
 
     @Override
-    public User remove(@NotNull User entity) {
-        return repository.remove(entity.getId());
+    public void removeById(@NotNull String id) {
+        em.remove(findOne(id));
     }
+
 
     @Override
     public User findOne(@NotNull String id) {
-        return repository.get(id);
+        return em.find(User.class, id);
     }
 
     @Override
-    public Collection<User> findAll() {
-        return repository.values();
+    public List<User> findAll() {
+        return em.createQuery("SELECT e FROM User e", User.class).getResultList();
     }
 }

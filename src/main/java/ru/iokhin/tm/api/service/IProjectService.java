@@ -1,23 +1,22 @@
 package ru.iokhin.tm.api.service;
 
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.iokhin.tm.api.repositroy.IRepository;
-import ru.iokhin.tm.model.Project;
-import ru.iokhin.tm.util.StringValidator;
+import ru.iokhin.tm.model.dto.ProjectDTO;
+import ru.iokhin.tm.model.entity.Project;
 
 import java.util.List;
 
-public interface IProjectService extends IRepository<Project> {
+public interface IProjectService extends IRepository<ProjectDTO> {
 
-    List<Project> findAllByUserId(@NotNull String userId);
+    List<ProjectDTO> findAllByUserId(@NotNull String userId);
 
     void removeAllByUserId(@NotNull String userId);
 
-    List<Project> sortByUserId(@NotNull String userId, @NotNull String parameter);
+    List<ProjectDTO> sortByUserId(@NotNull String userId, @NotNull String parameter);
 
-    List<Project> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord);
+    List<ProjectDTO> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord);
 
-    Project findOneById(@NotNull String userId, @NotNull String id);
+    Project findOneByUserId(@NotNull String userId, @NotNull String id);
 
 }

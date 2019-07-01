@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.enumerated.Status;
-import ru.iokhin.tm.model.Project;
+import ru.iokhin.tm.model.dto.ProjectDTO;
+import ru.iokhin.tm.model.entity.Project;
 import ru.iokhin.tm.util.StringValidator;
 
 @Controller
@@ -23,7 +24,7 @@ public class ProjectEditController {
     @GetMapping("/project-edit")
     public String showForm(@RequestParam @Nullable final String id, @NotNull Model model) throws Exception {
         if (id == null) throw new Exception("PROJECT ID IS NULL");
-        @Nullable Project project = projectService.findOne(id);
+        @Nullable ProjectDTO project = projectService.findOne(id);
         model.addAttribute("project", project);
         model.addAttribute("id", id);
         return "project/project-edit";
@@ -35,7 +36,7 @@ public class ProjectEditController {
                               @RequestParam @Nullable final String description,
                               @RequestParam @Nullable final String status) {
         StringValidator.validate(name, description, id, status);
-        @NotNull final Project project = projectService.findOne(id);
+        @NotNull final ProjectDTO project = projectService.findOne(id);
         project.setName(name);
         project.setDescription(description);
         @Nullable final Status projectStatus = Status.getStatusByName(status);

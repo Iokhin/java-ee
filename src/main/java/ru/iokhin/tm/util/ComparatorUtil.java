@@ -1,8 +1,8 @@
 package ru.iokhin.tm.util;
 
 import org.jetbrains.annotations.NotNull;
-import ru.iokhin.tm.model.Project;
-import ru.iokhin.tm.model.Task;
+import ru.iokhin.tm.model.entity.Project;
+import ru.iokhin.tm.model.entity.Task;
 
 import java.util.Comparator;
 import java.util.Date;

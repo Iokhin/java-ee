@@ -4,16 +4,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.api.repositroy.IProjectRepository;
+import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.api.service.IProjectService;
-import ru.iokhin.tm.model.Project;
-import ru.iokhin.tm.util.ComparatorUtil;
+import ru.iokhin.tm.model.dto.ProjectDTO;
+import ru.iokhin.tm.model.entity.Project;
+import ru.iokhin.tm.model.entity.User;
 import ru.iokhin.tm.util.StringValidator;
 
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Transactional
 @Service(ProjectService.NAME)
 public class ProjectService implements IProjectService {
 
@@ -24,66 +27,97 @@ public class ProjectService implements IProjectService {
     @Autowired
     private IProjectRepository projectRepository;
 
+    @NotNull
+    @Autowired
+    private IUserRepository userRepository;
+
     @Override
-    public List<Project> findAllByUserId(@NotNull final String userId) {
+    public List<ProjectDTO> findAllByUserId(@NotNull final String userId) {
         StringValidator.validate(userId);
-        return projectRepository.findAllByUserId(userId);
+        final User user = getUser(userId);
+        if (user == null) return null;
+        return projectRepository.findAllByUserId(user).stream()
+                .map(Project::getProjectDTO).collect(Collectors.toList());
     }
 
     @Override
     public void removeAllByUserId(@NotNull final String userId) {
         StringValidator.validate(userId);
-        for (Project project : findAllByUserId(userId)) {
-            remove(project);
-        }
+        final User user = getUser(userId);
+        if (user == null) return;
+        projectRepository.removeAllByUserId(user);
     }
 
     @Override
-    public List<Project> sortByUserId(@NotNull final String userId, @NotNull final String parameter) {
+    public List<ProjectDTO> sortByUserId(@NotNull final String userId, @NotNull final String parameter) {
         StringValidator.validate(userId, parameter);
+        final User user = getUser(userId);
+        if (user == null) return  null;
         if ("order".equals(parameter)) return findAllByUserId(userId);
-        @Nullable final Comparator<Project> comparator = ComparatorUtil.getProjectComparator(parameter);
-        if (comparator == null) return null;
-        return projectRepository.sortByUserId(userId, comparator);
+        return projectRepository.sortByUserId(user, parameter).stream()
+                .map(Project::getProjectDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<Project> findByPartOfNameOrDescription(@NotNull final String userId, @NotNull final String keyWord) {
+    public List<ProjectDTO> findByPartOfNameOrDescription(@NotNull final String userId, @NotNull final String keyWord) {
         StringValidator.validate(userId, keyWord);
-        return projectRepository.findByPartOfNameOrDescription(userId, keyWord);
+        final User user = getUser(userId);
+        if (user == null) return null;
+        return projectRepository.findByPartOfNameOrDescription(user, keyWord).stream()
+                .map(Project::getProjectDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Project findOneById(@NotNull final String userId, @NotNull final String id) {
-        Project project = findOne(id);
+    public Project findOneByUserId(@NotNull final String userId, @NotNull final String id) {
+        final User user = getUser(userId);
+        if (user == null) return null;
+        return projectRepository.findOneByUserId(user, id);
+    }
+
+    @Override
+    public void persist(@NotNull final ProjectDTO projectDTO) {
+        @NotNull final Project project = getProjectFromDTO(projectDTO);
+        projectRepository.persist(project);
+    }
+
+    @Override
+    public void merge(@NotNull final ProjectDTO projectDTO) {
+        @NotNull final Project project = getProjectFromDTO(projectDTO);
+        projectRepository.merge(project);
+    }
+
+    @Override
+    public void removeById(@NotNull String id) {
+        projectRepository.removeById(id);
+    }
+
+    @Override
+    public ProjectDTO findOne(@NotNull final String id) {
+        StringValidator.validate(id);
+        @Nullable final Project project = projectRepository.findOne(id);
         if (project == null) return null;
-        if (!project.getUserId().equals(userId)) return null;
+        return project.getProjectDTO();
+    }
+
+    @Override
+    public List<ProjectDTO> findAll() {
+        return projectRepository.findAll().stream().map(Project::getProjectDTO).collect(Collectors.toList());
+    }
+
+    private User getUser(@NotNull final String userId) {
+        return userRepository.findOne(userId);
+    }
+
+    private Project getProjectFromDTO(@NotNull final ProjectDTO projectDTO) {
+        final Project project = new Project();
+        project.setId(projectDTO.getId());
+        project.setUser(getUser(projectDTO.getUserId()));
+        project.setName(projectDTO.getName());
+        project.setDescription(projectDTO.getDescription());
+        project.setDateStart(projectDTO.getDateStart());
+        project.setDateEnd(projectDTO.getDateEnd());
+        project.setStatus(projectDTO.getStatus());
         return project;
     }
 
-    @Override
-    public Project persist(@NotNull final Project entity) {
-        return projectRepository.persist(entity);
-    }
-
-    @Override
-    public Project merge(@NotNull final Project entity) {
-        return projectRepository.merge(entity);
-    }
-
-    @Override
-    public Project remove(@NotNull final Project entity) {
-        return projectRepository.remove(entity);
-    }
-
-    @Override
-    public Project findOne(@NotNull final String id) {
-        StringValidator.validate(id);
-        return projectRepository.findOne(id);
-    }
-
-    @Override
-    public Collection<Project> findAll() {
-        return projectRepository.findAll();
-    }
 }

@@ -1,11 +1,18 @@
 package ru.iokhin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.iokhin.tm.api.repositroy.IProjectRepository;
-import ru.iokhin.tm.model.Project;
+import ru.iokhin.tm.model.entity.Project;
+import ru.iokhin.tm.model.entity.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 @Repository(ProjectRepository.NAME)
@@ -14,82 +21,76 @@ public class ProjectRepository implements IProjectRepository {
     @NotNull
     public static final String NAME = "projectRepository";
 
-    @NotNull
-    private Map<String, Project> repository;
+    @PersistenceContext
+    private EntityManager em;
 
-    private ProjectRepository() {
-        this.repository = new LinkedHashMap<>();
-        generateProjects();
+    @Override
+    public List<Project> findAllByUserId(@NotNull final User user) {
+        return em.createQuery("SELECT e FROM Project e WHERE e.user = :user", Project.class)
+                .setParameter("user", user)
+                .getResultList();
     }
 
     @Override
-    public List<Project> findAllByUserId(@NotNull final String userId) {
-        List<Project> projects = new ArrayList<>();
-        for (Project project : repository.values()) {
-            if (project.getUserId().equals(userId))
-                projects.add(project);
-        }
-        return projects;
+    public void removeAllByUserId(@NotNull final User user) {
+        @NotNull final List<Project> projects = findAllByUserId(user);
+        projects.forEach(em::remove);
     }
 
     @Override
-    public void removeAllByUserId(@NotNull final String userId) {
-        for (Project project : findAllByUserId(userId)) {
-            repository.remove(project.getId());
-        }
+    public void persist(@NotNull final Project entity) {
+        em.persist(entity);
     }
 
     @Override
-    public Project persist(@NotNull final Project entity) {
-        return repository.put(entity.getId(), entity);
+    public void merge(@NotNull final Project entity) {
+        em.merge(entity);
     }
 
     @Override
-    public Project merge(@NotNull final Project entity) {
-        return repository.put(entity.getId(), entity);
-    }
-
-    @Override
-    public Project remove(@NotNull final Project entity) {
-        return repository.remove(entity.getId());
+    public void removeById(@NotNull final String id) {
+        em.remove(findOne(id));
     }
 
     @Override
     public Project findOne(@NotNull final String id) {
-        @Nullable final Project project = repository.get(id);
-        return project;
+        return em.find(Project.class, id);
     }
 
     @Override
-    public Collection<Project> findAll() {
-        return repository.values();
+    public List<Project> findAll() {
+        return em.createQuery("SELECT e FROM Project e", Project.class).getResultList();
     }
 
     @Override
-    public List<Project> sortByUserId(@NotNull final String userId, @NotNull final Comparator<Project> comparator) {
-        List<Project> projectList = new ArrayList<>(findAllByUserId(userId));
-        projectList.sort(comparator);
-        return projectList;
+    public List<Project> sortByUserId(@NotNull final User user, @NotNull final String parameter) {
+        @NotNull final CriteriaBuilder cb = em.getCriteriaBuilder();
+        @NotNull final CriteriaQuery<Project> cq = cb.createQuery(Project.class);
+        @NotNull final Root<Project> projectRoot = cq.from(Project.class);
+        @NotNull final Predicate condition = cb.equal(projectRoot.get("user"), user);
+        cb.conjunction();
+        cq.select(projectRoot).where(condition);
+        cq.orderBy(cb.desc(projectRoot.get(parameter)));
+        @NotNull final TypedQuery<Project> query = em.createQuery(cq);
+        return query.getResultList();
     }
 
     @Override
-    public List<Project> findByPartOfNameOrDescription(@NotNull final String userId, @NotNull final String keyWord) {
-        List<Project> projectList = new ArrayList<>(0);
-        for (Project project : findAllByUserId(userId)) {
-            if (project.getName().toLowerCase().contains(keyWord.toLowerCase()) ||
-                    project.getDescription().toLowerCase().contains(keyWord.toLowerCase())) {
-                projectList.add(project);
-            }
-        }
-        return projectList;
+    public List<Project> findByPartOfNameOrDescription(@NotNull final User user, @NotNull final String keyWord) {
+        return em.createQuery("SELECT p FROM Project p WHERE p.user = :user AND " +
+                "(p.name LIKE :part OR p.description LIKE :part)", Project.class)
+                .setParameter("user", user)
+                .setParameter("part", "%" + keyWord + "%")
+                .getResultList();
     }
 
-    private void generateProjects() {
-        persist(new Project("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Project("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Project("58607299-b756-4f72-922d-07e3c9f1448d"));
-        persist(new Project("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
-        persist(new Project("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
-        persist(new Project("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
+    @Override
+    public Project findOneByUserId(@NotNull User user, @NotNull String id) {
+        final List<Project> projects = em.createQuery("SELECT e FROM Project e WHERE e.user = :user", Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        if (projects.size() > 0)
+            return projects.get(0);
+        return null;
     }
 }

@@ -1,21 +1,21 @@
 package ru.iokhin.tm.api.repositroy;
 
 import org.jetbrains.annotations.NotNull;
-import ru.iokhin.tm.model.AbstractEntity;
-import ru.iokhin.tm.model.User;
+import ru.iokhin.tm.model.dto.ProjectDTO;
+import ru.iokhin.tm.model.entity.AbstractEntity;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface IRepository<E extends AbstractEntity> {
 
-    E persist(@NotNull E entity);
+    void persist(@NotNull E entity);
 
-    E merge(@NotNull E entity);
+    void merge(@NotNull E entity);
 
-    E remove(@NotNull E entity);
+    void removeById(@NotNull String id);
 
     E findOne(@NotNull String id);
 
-    Collection<E> findAll();
+    List<E> findAll();
 
 }

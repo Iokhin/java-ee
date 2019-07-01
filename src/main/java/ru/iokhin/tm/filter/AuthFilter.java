@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter({"/welcome/*", "/project-create/*", "/project-edit/*", "/project-remove/*", "/project-list/*",
-        "/task-create/*", "/task-edit/*", "/task-remove/*", "/task-list/*", "/user-edit/*"})
+@WebFilter({"/welcome/*", "/project-create/*", "/project-edit/*", "/project-removeById/*", "/project-list/*",
+        "/task-create/*", "/task-edit/*", "/task-removeById/*", "/task-list/*", "/user-edit/*"})
 public class AuthFilter implements Filter {
 
     @NotNull

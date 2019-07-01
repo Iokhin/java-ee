@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.enumerated.Status;
-import ru.iokhin.tm.model.Project;
-import ru.iokhin.tm.model.Task;
+import ru.iokhin.tm.model.dto.ProjectDTO;
+import ru.iokhin.tm.model.dto.TaskDTO;
 import ru.iokhin.tm.util.StringValidator;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -34,9 +33,9 @@ public class TaskEditController {
     public String showForm(@RequestParam @Nullable final String id, @NotNull Model model,
                            @NotNull HttpSession session) throws Exception {
         if (id == null) throw new Exception("TASK ID IS NULL");
-        @Nullable final Task task = taskService.findOne(id);
+        @Nullable final TaskDTO task = taskService.findOne(id);
         @NotNull final String userId = session.getAttribute("userId").toString();
-        @Nullable final Collection<Project> projects = projectService.findAllByUserId(userId);
+        @Nullable final List<ProjectDTO> projects = projectService.findAllByUserId(userId);
         model.addAttribute("task", task);
         model.addAttribute("id", id);
         model.addAttribute("projects", projects);
@@ -50,7 +49,7 @@ public class TaskEditController {
                               @RequestParam @Nullable final String status,
                               @RequestParam @Nullable final String projectId) {
         StringValidator.validate(name, description, id, status);
-        @NotNull final Task task = taskService.findOne(id);
+        @NotNull final TaskDTO task = taskService.findOne(id);
         task.setName(name);
         task.setDescription(description);
         @Nullable final Status projectStatus = Status.getStatusByName(status);

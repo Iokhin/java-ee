@@ -1,6 +1,6 @@
-<%@ page import="ru.iokhin.tm.model.Project" %>
 <%@ page import="ru.iokhin.tm.enumerated.Status" %>
 <%@ page import="org.jetbrains.annotations.NotNull" %>
+<%@ page import="ru.iokhin.tm.model.dto.ProjectDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../header.jsp"/>
@@ -8,7 +8,7 @@
 <head>
     <title>Project edit</title>
 </head>
-<% Project project = (Project) request.getAttribute("project"); %>
+<% ProjectDTO project = (ProjectDTO) request.getAttribute("project"); %>
 <c:set var="project" value="${requestScope.project}"/>
 <body>
 <form action="${pageContext.request.contextPath}/project-edit" method="post" id="project-edit-form"
