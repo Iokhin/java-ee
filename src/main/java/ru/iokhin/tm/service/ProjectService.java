@@ -5,12 +5,12 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.iokhin.tm.api.repositroy.IProjectRepository;
-import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.model.dto.ProjectDTO;
 import ru.iokhin.tm.model.entity.Project;
 import ru.iokhin.tm.model.entity.User;
+import ru.iokhin.tm.repository.ProjectRepository;
+import ru.iokhin.tm.repository.UserRepository;
 import ru.iokhin.tm.util.StringValidator;
 
 import java.util.List;
@@ -25,18 +25,18 @@ public class ProjectService implements IProjectService {
 
     @NotNull
     @Autowired
-    private IProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @NotNull
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public List<ProjectDTO> findAllByUserId(@NotNull final String userId) {
         StringValidator.validate(userId);
         final User user = getUser(userId);
         if (user == null) return null;
-        return projectRepository.findAllByUserId(user).stream()
+        return projectRepository.findAllByUser(user).stream()
                 .map(Project::getProjectDTO).collect(Collectors.toList());
     }
 
@@ -45,17 +45,29 @@ public class ProjectService implements IProjectService {
         StringValidator.validate(userId);
         final User user = getUser(userId);
         if (user == null) return;
-        projectRepository.removeAllByUserId(user);
+        projectRepository.removeAllByUser(user);
     }
 
     @Override
     public List<ProjectDTO> sortByUserId(@NotNull final String userId, @NotNull final String parameter) {
         StringValidator.validate(userId, parameter);
         final User user = getUser(userId);
-        if (user == null) return  null;
-        if ("order".equals(parameter)) return findAllByUserId(userId);
-        return projectRepository.sortByUserId(user, parameter).stream()
-                .map(Project::getProjectDTO).collect(Collectors.toList());
+        if (user == null) return null;
+        switch (parameter) {
+            case "order":
+                return findAllByUserId(userId);
+            case "status":
+                return projectRepository.findAllByUserOrderByStatus(user)
+                        .stream().map(Project::getProjectDTO).collect(Collectors.toList());
+            case "dateStart":
+                return projectRepository.findAllByUserOrderByDateStart(user)
+                        .stream().map(Project::getProjectDTO).collect(Collectors.toList());
+            case "dateEnd":
+                return projectRepository.findAllByUserOrderByDateEnd(user)
+                        .stream().map(Project::getProjectDTO).collect(Collectors.toList());
+            default:
+                throw new IllegalArgumentException("WRONG PARAMENTER");
+        }
     }
 
     @Override
@@ -63,38 +75,40 @@ public class ProjectService implements IProjectService {
         StringValidator.validate(userId, keyWord);
         final User user = getUser(userId);
         if (user == null) return null;
-        return projectRepository.findByPartOfNameOrDescription(user, keyWord).stream()
+        return projectRepository.findAllByPartOfNameOrDescription(user, keyWord).stream()
                 .map(Project::getProjectDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Project findOneByUserId(@NotNull final String userId, @NotNull final String id) {
+    public ProjectDTO findOneByUserId(@NotNull final String userId, @NotNull final String id) {
         final User user = getUser(userId);
         if (user == null) return null;
-        return projectRepository.findOneByUserId(user, id);
+        @Nullable final Project project = projectRepository.findProjectByUserAndId(user, id).orElse(null);
+        if (project == null) return null;
+        return project.getProjectDTO();
     }
 
     @Override
     public void persist(@NotNull final ProjectDTO projectDTO) {
         @NotNull final Project project = getProjectFromDTO(projectDTO);
-        projectRepository.persist(project);
+        projectRepository.save(project);
     }
 
     @Override
     public void merge(@NotNull final ProjectDTO projectDTO) {
         @NotNull final Project project = getProjectFromDTO(projectDTO);
-        projectRepository.merge(project);
+        projectRepository.save(project);
     }
 
     @Override
     public void removeById(@NotNull String id) {
-        projectRepository.removeById(id);
+        projectRepository.deleteById(id);
     }
 
     @Override
     public ProjectDTO findOne(@NotNull final String id) {
         StringValidator.validate(id);
-        @Nullable final Project project = projectRepository.findOne(id);
+        @Nullable final Project project = projectRepository.findById(id).orElse(null);
         if (project == null) return null;
         return project.getProjectDTO();
     }
@@ -105,7 +119,7 @@ public class ProjectService implements IProjectService {
     }
 
     private User getUser(@NotNull final String userId) {
-        return userRepository.findOne(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
     private Project getProjectFromDTO(@NotNull final ProjectDTO projectDTO) {

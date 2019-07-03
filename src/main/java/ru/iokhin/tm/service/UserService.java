@@ -1,21 +1,18 @@
 package ru.iokhin.tm.service;
 
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.api.service.IUserService;
-import ru.iokhin.tm.enumerated.Role;
 import ru.iokhin.tm.exception.AuthException;
 import ru.iokhin.tm.model.dto.UserDTO;
 import ru.iokhin.tm.model.entity.User;
+import ru.iokhin.tm.repository.UserRepository;
 import ru.iokhin.tm.util.MD5Util;
 import ru.iokhin.tm.util.StringValidator;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,10 +25,10 @@ public class UserService implements IUserService {
 
     @NotNull
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     public UserDTO findByLogin(@NotNull String login) {
-        final User user = userRepository.findByLogin(login);
+        final User user = userRepository.findUserByLogin(login).orElse(null);
         if (user == null) return null;
         return user.getUserDTO();
     }
@@ -40,24 +37,24 @@ public class UserService implements IUserService {
     public void persist(@NotNull UserDTO userDTO) {
         @NotNull final User user = getUserFromDTO(userDTO);
         if (user == null) return;
-        userRepository.persist(user);
+        userRepository.save(user);
     }
 
     @Override
     public void merge(@NotNull UserDTO userDTO) {
         @NotNull final User user = getUserFromDTO(userDTO);
         if (user == null) return;
-        userRepository.merge(user);
+        userRepository.save(user);
     }
 
     @Override
     public void removeById(@NotNull String id) {
-        userRepository.removeById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public UserDTO findOne(@NotNull String id) {
-        @Nullable final User user = userRepository.findOne(id);
+        @Nullable final User user = userRepository.findById(id).orElse(null);
         if (user == null) return null;
         return user.getUserDTO();
     }
