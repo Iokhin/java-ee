@@ -3,6 +3,7 @@ package ru.iokhin.tm.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.api.service.IUserService;
@@ -25,6 +26,7 @@ public class UserService implements IUserService {
 
     @NotNull
     @Autowired
+    @Qualifier("userRepo")
     private UserRepository userRepository;
 
     public UserDTO findByLogin(@NotNull String login) {

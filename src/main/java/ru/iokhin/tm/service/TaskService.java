@@ -3,17 +3,18 @@ package ru.iokhin.tm.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.iokhin.tm.api.repositroy.IProjectRepository;
-import ru.iokhin.tm.api.repositroy.ITaskRepository;
-import ru.iokhin.tm.api.repositroy.IUserRepository;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.model.dto.ProjectDTO;
 import ru.iokhin.tm.model.dto.TaskDTO;
 import ru.iokhin.tm.model.entity.Project;
 import ru.iokhin.tm.model.entity.Task;
 import ru.iokhin.tm.model.entity.User;
+import ru.iokhin.tm.repository.ProjectRepository;
+import ru.iokhin.tm.repository.TaskRepository;
+import ru.iokhin.tm.repository.UserRepository;
 import ru.iokhin.tm.util.StringValidator;
 
 import java.util.List;
@@ -28,28 +29,31 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Autowired
-    private ITaskRepository taskRepository;
+    @Qualifier("taskRepo")
+    private TaskRepository taskRepository;
 
     @NotNull
     @Autowired
-    private IUserRepository userRepository;
+    @Qualifier("userRepo")
+    private UserRepository userRepository;
 
     @NotNull
     @Autowired
-    private IProjectRepository projectRepository;
+    @Qualifier("projectRepo")
+    private ProjectRepository projectRepository;
 
     @Override
-    public List<TaskDTO> findAllByUserId(@NotNull String userId) {
+    public List<TaskDTO> findAllByUserId(@NotNull final String userId) {
         @Nullable final User user = getUser(userId);
         if (user == null) return null;
-        return taskRepository.findAllByUserId(user).stream().map(Task::getTaskDTO).collect(Collectors.toList());
+        return taskRepository.findAllByUser(user).stream().map(Task::getTaskDTO).collect(Collectors.toList());
     }
 
     @Override
-    public void removeAllByUserId(@NotNull String userId) {
+    public void removeAllByUserId(@NotNull final String userId) {
         @Nullable final User user = getUser(userId);
         if (user == null) return;
-        taskRepository.removeAllByUserId(user);
+        taskRepository.removeAllByUser(user);
     }
 
     @Override
@@ -57,16 +61,28 @@ public class TaskService implements ITaskService {
         StringValidator.validate(userId, parameter);
         @Nullable final User user = getUser(userId);
         if (user == null) return null;
-        if ("order".equals(parameter)) return findAllByUserId(userId);
-        return taskRepository.sortByUserId(user, parameter).stream()
-                .map(Task::getTaskDTO).collect(Collectors.toList());
+        switch (parameter) {
+            case "order":
+                return findAllByUserId(userId);
+            case "status":
+                return taskRepository.findAllByUserOrderByStatus(user)
+                        .stream().map(Task::getTaskDTO).collect(Collectors.toList());
+            case "dateStart":
+                return taskRepository.findAllByUserOrderByDateStart(user)
+                        .stream().map(Task::getTaskDTO).collect(Collectors.toList());
+            case "dateEnd":
+                return taskRepository.findAllByUserOrderByDateEnd(user)
+                        .stream().map(Task::getTaskDTO).collect(Collectors.toList());
+            default:
+                throw new IllegalArgumentException("WRONG PARAMENTER");
+        }
     }
 
     @Override
     public List<TaskDTO> findByPartOfNameOrDescription(@NotNull String userId, @NotNull String keyWord) {
         @Nullable final User user = getUser(userId);
         if (user == null) return null;
-        return taskRepository.findByPartOfNameOrDescription(user, keyWord).stream()
+        return taskRepository.findAllByPartOfNameOrDescription(user, keyWord).stream()
                 .map(Task::getTaskDTO).collect(Collectors.toList());
     }
 
@@ -76,7 +92,7 @@ public class TaskService implements ITaskService {
         @Nullable final User user = getUser(userId);
         @Nullable final Project project = getProject(projectId);
         if (user == null || project == null) return null;
-        return taskRepository.findAllByProjectId(user, project).stream()
+        return taskRepository.findAllByUserAndProject(user, project).stream()
                 .map(Task::getTaskDTO).collect(Collectors.toList());
     }
 
@@ -85,29 +101,31 @@ public class TaskService implements ITaskService {
         StringValidator.validate(userId, id);
         final User user = getUser(userId);
         if (user == null) return null;
-        return taskRepository.findOneByUserId(user, id).getTaskDTO();
+        final Task task = taskRepository.findTaskByUserAndId(user, id).orElse(null);
+        if (task == null) return null;
+        return task.getTaskDTO();
     }
 
     @Override
     public void persist(@NotNull TaskDTO taskDTO) {
         @NotNull final Task task = getTaskFromDTO(taskDTO);
-        taskRepository.persist(task);
+        taskRepository.save(task);
     }
 
     @Override
     public void merge(@NotNull TaskDTO taskDTO) {
         @NotNull final Task task = getTaskFromDTO(taskDTO);
-        taskRepository.merge(task);
+        taskRepository.save(task);
     }
 
     @Override
     public void removeById(@NotNull final String id) {
-        taskRepository.removeById(id);
+        taskRepository.deleteById(id);
     }
 
     @Override
     public TaskDTO findOne(@NotNull String id) {
-        final Task task = taskRepository.findOne(id);
+        final Task task = taskRepository.findById(id).orElse(null);
         if (task == null) return null;
         return task.getTaskDTO();
     }
@@ -118,12 +136,12 @@ public class TaskService implements ITaskService {
     }
 
     private User getUser(@NotNull final String userId) {
-        return userRepository.findOne(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
     private Project getProject(@Nullable final String projectId) {
         if (projectId == null) return null;
-        return projectRepository.findOne(projectId);
+        return projectRepository.findById(projectId).orElse(null);
     }
 
     private Project getProjectFromDTO(@NotNull final ProjectDTO projectDTO) {

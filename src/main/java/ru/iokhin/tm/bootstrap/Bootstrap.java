@@ -2,6 +2,7 @@ package ru.iokhin.tm.bootstrap;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.api.service.ITaskService;
@@ -18,14 +19,17 @@ public class Bootstrap {
 
     @NotNull
     @Autowired
+    @Qualifier("userService")
     private IUserService userService;
 
     @NotNull
     @Autowired
+    @Qualifier("projectService")
     private IProjectService projectService;
 
     @NotNull
     @Autowired
+    @Qualifier("taskService")
     private ITaskService taskService;
 
 

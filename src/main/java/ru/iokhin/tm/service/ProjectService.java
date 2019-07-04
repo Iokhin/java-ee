@@ -3,6 +3,7 @@ package ru.iokhin.tm.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.api.service.IProjectService;
@@ -25,10 +26,12 @@ public class ProjectService implements IProjectService {
 
     @NotNull
     @Autowired
+    @Qualifier("projectRepo")
     private ProjectRepository projectRepository;
 
     @NotNull
     @Autowired
+    @Qualifier("userRepo")
     private UserRepository userRepository;
 
     @Override
