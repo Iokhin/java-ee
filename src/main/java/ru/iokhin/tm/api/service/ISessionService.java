@@ -11,4 +11,5 @@ public interface ISessionService {
 
 //    void validateAdminSession(@Nullable final HttpSession session) throws AuthException;
 
+    boolean isUser(@Nullable final HttpSession session);
 }

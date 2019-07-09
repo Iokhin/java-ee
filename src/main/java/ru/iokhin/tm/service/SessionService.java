@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import ru.iokhin.tm.api.service.ISessionService;
 import ru.iokhin.tm.exception.AuthException;
+import ru.iokhin.tm.model.dto.UserDTO;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,13 @@ public class SessionService implements ISessionService {
     public void validateSession(@Nullable final HttpSession session) throws AuthException {
         if (session.getAttribute("userId") == null)
             throw new AuthException("Session is invalid: \nDoes not found logged user! \nPlease re-login!");
+    }
+
+    @Override
+    public boolean isUser(@Nullable final HttpSession session) {
+        @NotNull final UserDTO loggedUser = (UserDTO) session.getAttribute("user");
+        if (loggedUser == null) return false;
+        return true;
     }
 
 }
