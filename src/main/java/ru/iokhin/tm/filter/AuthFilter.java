@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter({"/welcome/*", "/project-create/*", "/project-edit/*", "/project-removeById/*", "/project-list/*",
+@WebFilter({"/project-create/*", "/project-edit/*", "/project-removeById/*", "/project-list/*",
         "/task-create/*", "/task-edit/*", "/task-removeById/*", "/task-list/*", "/user-edit/*"})
 public class AuthFilter implements Filter {
 
@@ -34,7 +34,7 @@ public class AuthFilter implements Filter {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         if (isAuth(request)) filterChain.doFilter(servletRequest, servletResponse);
-        else response.sendRedirect("/login");
+        else response.sendRedirect("/welcome");
     }
 
     private boolean isAuth(final HttpServletRequest request) {

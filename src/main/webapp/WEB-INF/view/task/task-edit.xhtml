@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/view/template.xhtml">
+    <ui:param name="title" value="PROJECT EDIT"/>
+    <ui:define name="content">
+        <h:form id="taskEditForm" style="display: flex; justify-content: center;">
+            <p:growl id="msgs" showDetail="true" sticky="true"/>
+            <p:outputPanel id="projectDetail" style="margin-top: 20px">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: 100%">
+                    <p:outputLabel for="id" value="Id:"/>
+                    <p:outputLabel id="id" value="#{taskViewController.taskToEdit.id}"/>
+
+                    <p:outputLabel for="name" value="Name:"/>
+                    <p:inputText id="name" value="#{taskViewController.taskToEdit.name}"/>
+
+                    <p:outputLabel for="description" value="Description:"/>
+                    <p:inputTextarea id="description" rows="5" cols="65" style="width: 100%"
+                                     value="#{taskViewController.taskToEdit.description}"/>
+
+                    <p:outputLabel for="dateBegin" value="Date Begin:"/>
+                    <p:calendar
+                            id="dateBegin"
+                            pattern="dd.MM.yyyy HH:mm"
+                            showTime="true"
+                            value="#{taskViewController.taskToEdit.dateStart}"
+                            showOn="button">
+                    </p:calendar>
+
+                    <p:outputLabel for="dateEnd" value="Date End:"/>
+                    <p:calendar
+                            id="dateEnd"
+                            pattern="dd.MM.yyyy HH:mm"
+                            showTime="true"
+                            value="#{taskViewController.taskToEdit.dateEnd}"
+                            showOn="button">
+                    </p:calendar>
+                    <p:outputLabel for="status" value="Status:"/>
+                    <p:selectOneMenu id="status" value="#{taskViewController.taskToEdit.status}"
+                                     style="width:125px">
+                        <f:selectItems var="status" value="#{taskViewController.statuses}" itemLabel="#{status}"
+                                       itemValue="#{status}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton
+                            update=":taskEditForm:msgs"
+                            value="Save"
+                            action="#{taskViewController.taskSave}">
+                    </p:commandButton>
+                </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

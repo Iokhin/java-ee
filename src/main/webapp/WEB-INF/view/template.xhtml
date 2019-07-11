@@ -13,50 +13,48 @@
     <!--<h:outputStylesheet library="css" name="styles.css" target="body"/>-->
 </h:head>
 
-<h:body style="background-color:#31322c">
+<h:body style="background-color:#f1f1f1">
     <div class="header">
         <h:form>
             <p:growl id="growl" showDetail="true" sticky="true"/>
             <p:menubar>
                 <p:menuitem value="Home"
-                            icon="pi pi-home"
+                            action="#{indexController.welcome}"
                             style="margin: 5px 0px 5px 5px;"/>
                 <p:menuitem
                         rendered="#{elementViewController.visibleForUser}"
                         value="Project"
-                        icon="pi pi-briefcase"
+                        outcome="pretty:project-list"
                         style="margin: 5px 0px 5px 0px;"/>
                 <p:menuitem
                         rendered="#{elementViewController.visibleForUser}"
                         value="Task"
-                        icon="pi pi-calendar" style="margin: 5px 0px 5px 0px;"/>
+                        outcome="pretty:task-list"
+                        style="margin: 5px 0px 5px 0px;"/>
                 <p:menuitem
                         rendered="false"
                         value="User"
-                        icon="pi pi-users"
                         style="margin: 5px 0px 5px 0px;"/>
 
                 <f:facet name="options">
-                    <p:link
+                    <p:commandButton
                             rendered="#{not elementViewController.visibleForUser}"
                             value="Sing Up"/>
                     <p:commandButton
                             rendered="#{not elementViewController.visibleForUser}"
                             value="Sign In"
+                            action="#{userLoginController.showForm}"
                             update="@form"
-                            style="margin: 5px 0px 5px 5px;"
-                            icon="pi pi-key"/>
+                            style="margin: 5px 0px 5px 5px;"/>
                     <p:commandButton
                             rendered="#{elementViewController.visibleForUser}"
                             value="Profile"
-                            icon="pi pi-user"
                             style="margin: 0px 5px 5px 0px;"/>
                     <p:commandButton
                             rendered="#{elementViewController.visibleForUser}"
                             value="Logout"
                             update="@form"
                             action="#{userLoginController.logout}"
-                            icon="pi pi-times"
                             style="margin: 5px 0px 5px 0px;">
                     </p:commandButton>
                 </f:facet>
@@ -64,7 +62,8 @@
         </h:form>
     </div>
     <div id="content">
-        <p:panel id="header" header="#{title}" collapsed="true" toggleSpeed="500" closeSpeed="500"/>
+        <p:panel id="header" header="#{title}" collapsed="true" toggleSpeed="500" closeSpeed="500"
+                 style="text-align: center;"/>
         <ui:insert name="content"/>
     </div>
 </h:body>

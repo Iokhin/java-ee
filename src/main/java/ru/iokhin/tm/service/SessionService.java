@@ -7,6 +7,7 @@ import ru.iokhin.tm.api.service.ISessionService;
 import ru.iokhin.tm.exception.AuthException;
 import ru.iokhin.tm.model.dto.UserDTO;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 @Service(SessionService.NAME)
@@ -28,4 +29,11 @@ public class SessionService implements ISessionService {
         return true;
     }
 
+    @Override
+    public UserDTO getAuthedUser() {
+        @NotNull final FacesContext context = FacesContext.getCurrentInstance();
+        @NotNull final HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        @NotNull final UserDTO userDTO = (UserDTO) session.getAttribute("user");
+        return userDTO;
+    }
 }

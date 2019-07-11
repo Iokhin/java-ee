@@ -7,40 +7,40 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 <f:view>
     <ui:composition template="/WEB-INF/view/template.xhtml">
-    <ui:param name="title" value="PROJECT LIST"/>
+    <ui:param name="title" value="TASK LIST"/>
     <ui:define name="content">
         <f:metadata>
-            <f:viewAction action="#{projectViewController.init}"/>
+            <f:viewAction action="#{taskViewController.init}"/>
         </f:metadata>
             <h:form>
-                <p:dataTable var="project" value="#{projectViewController.projects}" tableStyle="width: auto"
+                <p:dataTable var="task" value="#{taskViewController.tasks}" tableStyle="width: auto"
                              style="display: flex; justify-content: center;">
                     <p:column headerText="Id">
-                        <h:outputText value="#{project.id}"/>
+                        <h:outputText value="#{task.id}"/>
                     </p:column>
 
                     <p:column headerText="Name">
-                        <h:outputText value="#{project.name}"/>
+                        <h:outputText value="#{task.name}"/>
                     </p:column>
 
                     <p:column headerText="Description">
-                        <h:outputText value="#{project.description}"/>
+                        <h:outputText value="#{task.description}"/>
                     </p:column>
 
                     <p:column headerText="Status">
-                        <h:outputText value="#{project.status}"/>
+                        <h:outputText value="#{task.status}"/>
                     </p:column>
 
                     <p:column headerText="Options">
-                        <p:commandButton icon="fa fa-cog" action="#{projectViewController.projectEdit(project.id)}"/>
+                        <p:commandButton icon="fa fa-cog"
+                                         action="#{taskViewController.taskEdit(task.id)}"/>
                         <p:commandButton icon="fa fa-trash-o"
-                                         actionListener="#{projectViewController.removeById(project.id)}" update="@all"/>
-                        <p:commandButton icon="fa fa-calendar-check-o"/>
+                                         actionListener="#{taskViewController.removeById(task.id)}" update="@all"/>
                     </p:column>
                 </p:dataTable>
                 <hr/>
                 <div style="display: flex; justify-content: center;">
-                <p:commandButton value="CREATE NEW PROJECT" action="#{projectViewController.projectCreate}" update="@all"/>
+                <p:commandButton value="CREATE NEW TASK" action="#{taskViewController.taskCreate}" update="@all"/>
                 </div>
             </h:form>
     </ui:define>

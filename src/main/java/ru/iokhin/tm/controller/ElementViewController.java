@@ -1,4 +1,4 @@
-package ru.iokhin.tm.faces;
+package ru.iokhin.tm.controller;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
