@@ -9,6 +9,7 @@
 
 <h:head>
     <title>Task Manager</title>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
     <!--<h:outputScript library="javascript" name="util.js" target="head"/>-->
     <!--<h:outputStylesheet library="css" name="styles.css" target="body"/>-->
 </h:head>
@@ -19,16 +20,19 @@
             <p:growl id="growl" showDetail="true" sticky="true"/>
             <p:menubar>
                 <p:menuitem value="Home"
+                            icon="pi pi-home"
                             action="#{indexController.welcome}"
                             style="margin: 5px 0px 5px 5px;"/>
                 <p:menuitem
                         rendered="#{elementViewController.visibleForUser}"
                         value="Project"
+                        icon="pi pi-file"
                         outcome="pretty:project-list"
                         style="margin: 5px 0px 5px 0px;"/>
                 <p:menuitem
                         rendered="#{elementViewController.visibleForUser}"
                         value="Task"
+                        icon="pi pi-calendar-plus"
                         outcome="pretty:task-list"
                         style="margin: 5px 0px 5px 0px;"/>
                 <p:menuitem
@@ -49,10 +53,13 @@
                     <p:commandButton
                             rendered="#{elementViewController.visibleForUser}"
                             value="Profile"
+                            icon="pi pi-user"
+                            action="#{userEditController.userEdit}"
                             style="margin: 0px 5px 5px 0px;"/>
                     <p:commandButton
                             rendered="#{elementViewController.visibleForUser}"
                             value="Logout"
+                            icon="pi pi-times"
                             update="@form"
                             action="#{userLoginController.logout}"
                             style="margin: 5px 0px 5px 0px;">

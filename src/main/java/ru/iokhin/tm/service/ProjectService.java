@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.model.dto.ProjectDTO;
 import ru.iokhin.tm.model.entity.Project;
+import ru.iokhin.tm.model.entity.ProjectParticipant;
 import ru.iokhin.tm.model.entity.User;
+import ru.iokhin.tm.repository.ProjectParticipantRepository;
 import ru.iokhin.tm.repository.ProjectRepository;
 import ru.iokhin.tm.repository.UserRepository;
 import ru.iokhin.tm.util.StringValidator;
@@ -33,6 +35,10 @@ public class ProjectService implements IProjectService {
     @Autowired
     @Qualifier("userRepo")
     private UserRepository userRepository;
+
+    @NotNull
+    @Autowired
+    private ProjectParticipantRepository projectParticipantRepository;
 
     @Override
     public List<ProjectDTO> findAllByUserId(@NotNull final String userId) {

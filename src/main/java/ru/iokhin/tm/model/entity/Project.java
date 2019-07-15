@@ -23,6 +23,10 @@ public class Project extends BaseEntity implements Serializable {
 
     @Nullable
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProjectParticipant> projectParticipant;
+
+    @Nullable
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
     @Override

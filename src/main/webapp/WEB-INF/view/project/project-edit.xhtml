@@ -12,7 +12,7 @@
         <h:form id="projectEditForm" style="display: flex; justify-content: center;">
             <p:growl id="msgs" showDetail="true" sticky="true"/>
             <p:outputPanel id="projectDetail" style="margin-top: 20px">
-                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: 100%">
+                <p:panelGrid columns="2" styleClass="ui-noborder ui-fluid" style="width: 100%">
                     <p:outputLabel for="id" value="Id:"/>
                     <p:outputLabel id="id" value="#{projectViewController.projectToEdit.id}"/>
 
@@ -20,7 +20,7 @@
                     <p:inputText id="name" value="#{projectViewController.projectToEdit.name}"/>
 
                     <p:outputLabel for="description" value="Description:"/>
-                    <p:inputTextarea id="description" rows="5" cols="65" style="width: 100%"
+                    <p:inputTextarea id="description" rows="5" style="width: 100%"
                                      value="#{projectViewController.projectToEdit.description}"/>
 
                     <p:outputLabel for="dateBegin" value="Date Begin:"/>
@@ -41,16 +41,17 @@
                             showOn="button">
                     </p:calendar>
                     <p:outputLabel for="status" value="Status:"/>
-                    <p:selectOneMenu id="status" value="#{projectViewController.projectToEdit.status}"
-                                     style="width:125px">
+                    <p:selectOneMenu id="status" value="#{projectViewController.projectToEdit.status}">
                         <f:selectItems var="status" value="#{projectViewController.statuses}" itemLabel="#{status}"
                                        itemValue="#{status}"/>
                     </p:selectOneMenu>
+                    <div>
                     <p:commandButton
                             update=":projectEditForm:msgs"
                             value="Save"
                             action="#{projectViewController.projectSave}">
                     </p:commandButton>
+                    </div>
                 </p:panelGrid>
             </p:outputPanel>
         </h:form>

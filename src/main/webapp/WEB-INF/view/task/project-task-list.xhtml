@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:composition template="/WEB-INF/view/template.xhtml">
+        <ui:param name="title" value="TASK LIST FOR #{projectTaskViewController.project.name}"/>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewAction action="#{projectTaskViewController.init}"/>
+            </f:metadata>
+            <br/>
+            <h:form id="form" style="display: flex; justify-content: space-around;">
+                <div style="width: 20%">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable id="singleDT" var="participant" value="#{projectParticipantController.participants}"
+                                 selectionMode="single"
+                                 selection="#{projectParticipantController.selectedParticipant}"
+                                 rowKey="#{participant.id}">
+                        <f:facet name="header">
+                            PROJECT PARTICIPANTS
+                        </f:facet>
+                        <p:ajax event="rowSelect" listener="#{projectParticipantController.onRowSelect}"
+                                update=":form:msgs"/>
+                        <p:ajax event="rowUnselect" listener="#{projectParticipantController.onRowUnselect}"
+                                update=":form:msgs"/>
+                        <p:column headerText="Username">
+                            <h:outputText value="#{participant.username}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton process="singleDT" icon="pi pi-plus" value="Add"
+                                             action="#{projectParticipantController.participantShow}">
+                                <p:ajax event="dialogReturn" update="@form"/>
+                            </p:commandButton>
+                            <p:commandButton process="singleDT" update="@form" icon="pi pi-minus" value="Kick"
+                                             action="#{projectParticipantController.participantKick}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+                <div>
+                    <p:dataTable var="task" value="#{projectTaskViewController.tasks}" tableStyle="width: auto"
+                                 style="display: flex; justify-content: center;">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{task.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{task.name}"/>
+                        </p:column>
+
+                        <p:column headerText="Description">
+                            <h:outputText value="#{task.description}"/>
+                        </p:column>
+
+                        <p:column headerText="Status">
+                            <h:outputText value="#{task.status}"/>
+                        </p:column>
+
+                        <p:column headerText="Options">
+                            <p:commandButton icon="fa fa-cog"
+                                             action="#{taskViewController.taskEdit(task.id)}"/>
+                            <p:commandButton icon="fa fa-trash-o"
+                                             actionListener="#{projectTaskViewController.removeById(task.id)}"
+                                             update="@all"/>
+                        </p:column>
+                    </p:dataTable>
+                    <hr/>
+                    <div style="display: flex; justify-content: center;">
+                        <p:commandButton value="CREATE NEW TASK" action="#{projectTaskViewController.taskCreate}"
+                                         update="@all"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>

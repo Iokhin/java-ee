@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 @Setter
 @ApplicationScoped
 @Controller
-@ManagedBean
 @URLMapping(
         id = "login",
         pattern = "/login",
