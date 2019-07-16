@@ -3,21 +3,18 @@ package ru.iokhin.tm.controller.project;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import ru.iokhin.tm.api.service.IProjectParticipantService;
-import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.model.dto.ProjectParticipantDTO;
 import ru.iokhin.tm.model.dto.UserDTO;
-import ru.iokhin.tm.model.entity.ProjectParticipant;
-import ru.iokhin.tm.repository.ProjectParticipantRepository;
 import ru.iokhin.tm.util.OptionsUtil;
 
 import javax.faces.application.FacesMessage;
@@ -68,6 +65,7 @@ public class ProjectParticipantController {
         return "pretty:project-participants";
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void participantAdd() {
         if (selectedUser == null) {
             FacesMessage msg = new FacesMessage("ERROR:", "USER WAS NOT SELECTED");
@@ -83,6 +81,7 @@ public class ProjectParticipantController {
         PrimeFaces.current().dialog().openDynamic("project-participant-add", OptionsUtil.getWindowOptions(), null);
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void participantKick() {
         if (selectedParticipant == null) {
             FacesMessage msg = new FacesMessage("ERROR:", "USER WAS NOT SELECTED");
@@ -92,6 +91,7 @@ public class ProjectParticipantController {
         projectParticipantService.delete(selectedParticipant.getUserId(), selectedParticipant.getProjectId());
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void createParticipantByIds(@NotNull final String userId, @NotNull final String projectId) {
         final ProjectParticipantDTO projectParticipantDTO = new ProjectParticipantDTO();
         projectParticipantDTO.setUserId(userId);

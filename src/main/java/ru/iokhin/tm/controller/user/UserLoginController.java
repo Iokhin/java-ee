@@ -1,6 +1,7 @@
 package ru.iokhin.tm.controller.user;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,12 @@ import javax.servlet.http.HttpSession;
 @Setter
 @ApplicationScoped
 @Controller
-@URLMapping(
-        id = "login",
-        pattern = "/login",
-        viewId = "/WEB-INF/view/user/login.xhtml"
-)
+@URLMappings(mappings = {
+        @URLMapping(
+                id = "login",
+                pattern = "/login",
+                viewId = "/WEB-INF/view/user/login.xhtml")
+})
 public class UserLoginController {
 
     @Autowired
@@ -54,14 +56,11 @@ public class UserLoginController {
 
     private void saveMessage() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Warning",  "Message: " + message) );
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning", "Message: " + message));
     }
 
     public String logout() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-        session.setAttribute("user", null);
-        return "pretty:welcome";
+        return "pretty:logout";
     }
 
     public String showForm() {

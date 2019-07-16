@@ -8,13 +8,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import ru.iokhin.tm.api.service.IProjectService;
+import ru.iokhin.tm.api.service.ISecurityService;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.enumerated.Status;
 import ru.iokhin.tm.exception.AuthException;
 import ru.iokhin.tm.model.dto.ProjectDTO;
 import ru.iokhin.tm.model.dto.TaskDTO;
+import ru.iokhin.tm.model.dto.UserDTO;
 import ru.iokhin.tm.model.entity.Project;
 import ru.iokhin.tm.model.entity.Task;
 import ru.iokhin.tm.util.DataValidator;
@@ -58,6 +61,9 @@ public class TaskViewController implements Serializable {
     @Autowired
     private IProjectService projectService;
 
+    @Autowired
+    private ISecurityService securityService;
+
     @PostConstruct
     public void init() {
         reload();
@@ -71,11 +77,13 @@ public class TaskViewController implements Serializable {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void removeById(@NotNull final String id) {
         taskService.removeById(id);
         reload();
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void taskCreate() throws AuthException {
         taskService.merge(new TaskDTO(getUserId()));
         reload();
@@ -86,6 +94,7 @@ public class TaskViewController implements Serializable {
         return "pretty:task-edit";
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void taskSave() {
         try {
             DataValidator.validate(taskToEdit);
@@ -97,12 +106,9 @@ public class TaskViewController implements Serializable {
     }
 
     private String getUserId() throws AuthException {
-        @Nullable final FacesContext facesContext = FacesContext.getCurrentInstance();
-        if (facesContext == null) throw new AuthException("USER NOT FOUND");
-        @NotNull final HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        @Nullable final String userId = (String) session.getAttribute("userId");
-        if (userId == null || userId.isEmpty()) throw new AuthException("USER NOT FOUND");
-        return userId;
+        @Nullable UserDTO loggedUser = securityService.getLoggedUser();
+        if (loggedUser == null) throw new AuthException("USER NOT FOUND");
+        return loggedUser.getId();
     }
 
     public List<ProjectDTO> getProjects() throws AuthException {

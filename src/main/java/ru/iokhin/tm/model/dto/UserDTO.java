@@ -5,9 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.iokhin.tm.enumerated.Role;
+import ru.iokhin.tm.enumerated.RoleEnum;
 import ru.iokhin.tm.model.entity.AbstractEntity;
-import ru.iokhin.tm.util.MD5Util;
 
 @Getter
 @Setter
@@ -21,21 +20,21 @@ public class UserDTO extends AbstractEntity {
     private String email;
 
     @Nullable
-    private String passwordHash;
+    private String password;
 
     @Nullable
-    private Role role;
+    private RoleEnum role;
 
-    public UserDTO(@Nullable String login, @Nullable String password, @Nullable Role role) {
+    public UserDTO(@Nullable String login, @Nullable String password, @Nullable RoleEnum role) {
         this.login = login;
-        this.passwordHash = MD5Util.passwordToHash(password);
+        this.password = password;
         this.role = role;
     }
 
-    public UserDTO(@NotNull String id, @Nullable String login, @Nullable String password, @Nullable Role role) {
+    public UserDTO(@NotNull String id, @Nullable String login, @Nullable String password, @Nullable RoleEnum role) {
         this.id = id;
         this.login = login;
-        this.passwordHash = MD5Util.passwordToHash(password);
+        this.password = password;
         this.role = role;
     }
 

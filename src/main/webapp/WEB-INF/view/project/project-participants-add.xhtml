@@ -7,15 +7,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Select user</title>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
 </h:head>
 <h:body>
-    <h:form id="form">
+    <h:form id="form" style="padding: 2%;">
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable id="singleDT" var="user" value="#{projectParticipantController.users}"
                      selectionMode="single"
                      selection="#{projectParticipantController.selectedUser}" rowKey="#{user.id}">
             <f:facet name="header">
-                Single with Row Click
+                USER LIST
             </f:facet>
             <p:ajax event="rowSelect" listener="#{projectParticipantController.onRowSelect}"
                     update=":form:msgs"/>
@@ -25,7 +26,7 @@
                 <h:outputText value="#{user.login}"/>
             </p:column>
             <f:facet name="footer">
-                <p:commandButton process="singleDT" update="@form" icon="pi pi-search" value="Add"
+                <p:commandButton process="singleDT" update="@form" icon="pi pi-plus" value="Add"
                                  action="#{projectParticipantController.participantAdd}"/>
             </f:facet>
         </p:dataTable>

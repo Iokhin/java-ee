@@ -3,17 +3,15 @@ package ru.iokhin.tm.controller.user;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import ru.iokhin.tm.api.service.ISecurityService;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.model.dto.UserDTO;
-import ru.iokhin.tm.util.MD5Util;
 
 import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 @Getter
 @Setter
@@ -27,19 +25,24 @@ import javax.servlet.http.HttpSession;
 public class UserEditController {
 
     @Autowired
+    private ISecurityService securityService;
+
+    @Autowired
     private IUserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     private UserDTO userToEdit;
 
     public String userEdit() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        userToEdit = (UserDTO) session.getAttribute("user");
+        userToEdit = securityService.getLoggedUser();
         return "pretty:user-edit";
     }
 
+    @PreAuthorize("hasRole('USER')")
     public void userSave() {
-        userToEdit.setPasswordHash(MD5Util.passwordToHash(userToEdit.getPasswordHash()));
+        userToEdit.setPassword(encoder.encode(userToEdit.getPassword()));
         userService.merge(userToEdit);
     }
 }

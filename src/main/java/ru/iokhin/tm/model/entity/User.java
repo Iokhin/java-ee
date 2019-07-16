@@ -7,13 +7,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.iokhin.tm.enumerated.Role;
+import ru.iokhin.tm.enumerated.RoleEnum;
 import ru.iokhin.tm.model.dto.UserDTO;
 import ru.iokhin.tm.util.MD5Util;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,7 +36,10 @@ public class User extends AbstractEntity implements Serializable {
 
     @Nullable
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum role;
+
+    @ManyToMany
+    private Set<ru.iokhin.tm.model.entity.Role> roles;
 
     @Nullable
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -45,13 +49,13 @@ public class User extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    public User(@Nullable String login, @Nullable String password, @Nullable Role role) {
+    public User(@Nullable String login, @Nullable String password, @Nullable RoleEnum role) {
         this.login = login;
         this.passwordHash = MD5Util.passwordToHash(password);
         this.role = role;
     }
 
-    public User(@NotNull String id, @Nullable String login, @Nullable String password, @Nullable Role role) {
+    public User(@NotNull String id, @Nullable String login, @Nullable String password, @Nullable RoleEnum role) {
         this.id = id;
         this.login = login;
         this.passwordHash = MD5Util.passwordToHash(password);
@@ -63,7 +67,7 @@ public class User extends AbstractEntity implements Serializable {
         userDTO.setId(id);
         userDTO.setLogin(login);
         userDTO.setEmail(email);
-        userDTO.setPasswordHash(passwordHash);
+        userDTO.setPassword(passwordHash);
         userDTO.setRole(role);
         return userDTO;
     }

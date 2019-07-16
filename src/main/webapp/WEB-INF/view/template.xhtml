@@ -10,8 +10,6 @@
 <h:head>
     <title>Task Manager</title>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
-    <!--<h:outputScript library="javascript" name="util.js" target="head"/>-->
-    <!--<h:outputStylesheet library="css" name="styles.css" target="body"/>-->
 </h:head>
 
 <h:body style="background-color:#f1f1f1">
@@ -24,13 +22,13 @@
                             action="#{indexController.welcome}"
                             style="margin: 5px 0px 5px 5px;"/>
                 <p:menuitem
-                        rendered="#{elementViewController.visibleForUser}"
+                        rendered="#{securityService.auth}"
                         value="Project"
                         icon="pi pi-file"
                         outcome="pretty:project-list"
                         style="margin: 5px 0px 5px 0px;"/>
                 <p:menuitem
-                        rendered="#{elementViewController.visibleForUser}"
+                        rendered="#{securityService.auth}"
                         value="Task"
                         icon="pi pi-calendar-plus"
                         outcome="pretty:task-list"
@@ -42,28 +40,28 @@
 
                 <f:facet name="options">
                     <p:commandButton
-                            rendered="#{not elementViewController.visibleForUser}"
+                            rendered="#{not securityService.auth}"
                             value="Sing Up"/>
                     <p:commandButton
-                            rendered="#{not elementViewController.visibleForUser}"
+                            rendered="#{not securityService.auth}"
                             value="Sign In"
                             action="#{userLoginController.showForm}"
                             update="@form"
                             style="margin: 5px 0px 5px 5px;"/>
                     <p:commandButton
-                            rendered="#{elementViewController.visibleForUser}"
+                            rendered="#{securityService.auth}"
                             value="Profile"
                             icon="pi pi-user"
                             action="#{userEditController.userEdit}"
                             style="margin: 0px 5px 5px 0px;"/>
-                    <p:commandButton
-                            rendered="#{elementViewController.visibleForUser}"
+                    <p:button
+                            rendered="#{securityService.auth}"
                             value="Logout"
                             icon="pi pi-times"
                             update="@form"
-                            action="#{userLoginController.logout}"
+                            href="#{pageContext.request.contextPath}/logout"
                             style="margin: 5px 0px 5px 0px;">
-                    </p:commandButton>
+                    </p:button>
                 </f:facet>
             </p:menubar>
         </h:form>
