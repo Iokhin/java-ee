@@ -16,6 +16,7 @@ import javax.xml.ws.Endpoint;
 @Import(DataSourceConfiguration.class)
 public class MainWebAppInitializer extends AbstractSecurityWebApplicationInitializer {
 
+//    ALTERNATIVE WAY TO PUBLISH ENDPOINT
 //    @Bean(name = Bus.DEFAULT_BUS_ID)
 //    public SpringBus springBus() {
 //        return new SpringBus();
