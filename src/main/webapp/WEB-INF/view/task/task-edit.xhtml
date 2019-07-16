@@ -51,13 +51,12 @@
                         <f:selectItems var="status" value="#{taskViewController.statuses}" itemLabel="#{status}"
                                        itemValue="#{status}"/>
                     </p:selectOneMenu>
-                    <div>
+                    <p:outputLabel/>
                     <p:commandButton
                             update=":taskEditForm:msgs"
                             value="Save"
                             action="#{taskViewController.taskSave}">
                     </p:commandButton>
-                    </div>
                 </p:panelGrid>
             </p:outputPanel>
         </h:form>

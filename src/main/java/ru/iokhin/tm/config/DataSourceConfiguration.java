@@ -38,13 +38,13 @@ public class DataSourceConfiguration {
                        @Value("${hibernate.show_sql}") final boolean showSql,
                        @Value("${hibernate.hbm2ddl.auto}") final String tableStrategy,
                        @Value("${hibernate.dialect}") final String dialect,
-                       @Value("hibernate.cache.use_second_level_cache") final String cache,
-                       @Value("hibernate.cache.use_query_cache") final String queryCache,
-                       @Value("hibernate.cache.use_minimal_puts") final String minPuts,
-                       @Value("hibernate.cache.hazelcast.use_lite_member") final String useLiteMember,
-                       @Value("hibernate.cache.region_prefix") final String regionPrefix,
-                       @Value("hibernate.cache.provider_configuration_file_resource_path") final String resourcePath,
-                       @Value("hibernate.cache.region.factory_class") final String factoryClass) {
+                       @Value("${hibernate.cache.use_second_level_cache}") final String cache,
+                       @Value("${hibernate.cache.use_query_cache}") final String queryCache,
+                       @Value("${hibernate.cache.use_minimal_puts}") final String minPuts,
+                       @Value("${hibernate.cache.hazelcast.use_lite_member}") final String useLiteMember,
+                       @Value("${hibernate.cache.region_prefix}") final String regionPrefix,
+                       @Value("${hibernate.cache.provider_configuration_file_resource_path}") final String resourcePath,
+                       @Value("${hibernate.cache.region.factory_class}") final String factoryClass) {
         final LocalContainerEntityManagerFactoryBean factoryBean;
         factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
@@ -54,13 +54,13 @@ public class DataSourceConfiguration {
         properties.put("hibernate.show_sql", showSql);
         properties.put("hibernate.hbm2ddl.auto", tableStrategy);
         properties.put("hibernate.dialect", dialect);
-        properties.put("hibernate.cache.use_second_level_cache", cache);
-        properties.put("hibernate.cache.use_query_cache", queryCache);
-        properties.put("hibernate.cache.use_minimal_puts", minPuts);
-        properties.put("hibernate.cache.hazelcast.use_lite_member", useLiteMember);
-        properties.put("hibernate.cache.region_prefix", regionPrefix);
-        properties.put("hibernate.cache.provider_configuration_file_resource_path", resourcePath);
-        properties.put("hibernate.cache.region.factory_class", factoryClass);
+//        properties.put("hibernate.cache.use_second_level_cache", cache);
+//        properties.put("hibernate.cache.use_query_cache", queryCache);
+//        properties.put("hibernate.cache.use_minimal_puts", minPuts);
+//        properties.put("hibernate.cache.hazelcast.use_lite_member", useLiteMember);
+//        properties.put("hibernate.cache.region_prefix", regionPrefix);
+//        properties.put("hibernate.cache.provider_configuration_file_resource_path", resourcePath);
+//        properties.put("hibernate.cache.region.factory_class", factoryClass);
         factoryBean.setJpaProperties(properties);
         return factoryBean;
     }

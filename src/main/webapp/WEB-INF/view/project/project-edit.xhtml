@@ -11,8 +11,8 @@
     <ui:define name="content">
         <h:form id="projectEditForm" style="display: flex; justify-content: center;">
             <p:growl id="msgs" showDetail="true" sticky="true"/>
-            <p:outputPanel id="projectDetail" style="margin-top: 20px">
-                <p:panelGrid columns="2" styleClass="ui-noborder ui-fluid" style="width: 100%">
+            <p:outputPanel id="projectDetail" style="margin-top: 20px;">
+                <p:panelGrid columns="2" styleClass="ui-noborder ui-fluid" style="width: 100%;">
                     <p:outputLabel for="id" value="Id:"/>
                     <p:outputLabel id="id" value="#{projectViewController.projectToEdit.id}"/>
 
@@ -45,13 +45,13 @@
                         <f:selectItems var="status" value="#{projectViewController.statuses}" itemLabel="#{status}"
                                        itemValue="#{status}"/>
                     </p:selectOneMenu>
-                    <div>
+
+                    <p:outputLabel/>
                     <p:commandButton
                             update=":projectEditForm:msgs"
                             value="Save"
                             action="#{projectViewController.projectSave}">
                     </p:commandButton>
-                    </div>
                 </p:panelGrid>
             </p:outputPanel>
         </h:form>

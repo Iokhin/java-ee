@@ -11,23 +11,20 @@
         <h:form id="userEditForm" style="display: flex; justify-content: center;">
             <p:growl id="msgs" showDetail="true" sticky="true"/>
             <p:outputPanel id="userDetail" style="margin-top: 20px">
-                <p:panelGrid columns="2" styleClass="ui-noborder ui-fluid" style="width: 100%">
-                    <br/>
+                <p:panelGrid columns="1" styleClass="ui-noborder ui-fluid" style="width: 100%">
                     <p:outputLabel for="name" value="New username:"/>
-                    <br/>
                     <p:inputText id="name" value="#{userEditController.userToEdit.login}" required="true"/>
-                    <br/>
                     <p:outputLabel for="password" value="New password:"/>
-                    <br/>
                     <p:password id="password" value="#{userEditController.userToEdit.password}" required="true"
                                 label="password"/>
-                    <div>
-                        <p:commandButton
-                                update=":userEditForm:msgs"
-                                value="Save"
-                                action="#{userEditController.userSave}">
-                        </p:commandButton>
-                    </div>
+                    <p:outputLabel/>
+
+                    <p:commandButton
+                            update=":userEditForm:msgs"
+                            value="Save"
+                            action="#{userEditController.userSave}">
+                    </p:commandButton>
+                    <p:outputLabel/>
                 </p:panelGrid>
             </p:outputPanel>
         </h:form>

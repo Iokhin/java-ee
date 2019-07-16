@@ -19,6 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "project")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
 public class Project extends BaseEntity implements Serializable {
 
     @Nullable

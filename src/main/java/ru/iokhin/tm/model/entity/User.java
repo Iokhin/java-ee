@@ -22,6 +22,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
 public class User extends AbstractEntity implements Serializable {
 
     @Nullable

@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "project_participant")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
 public class ProjectParticipant extends AbstractEntity {
 
     @JoinColumn(name = "user_id")
