@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
 @EnableJpaRepositories("ru.iokhin.tm.repository")
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
