@@ -8,10 +8,12 @@ import org.jetbrains.annotations.Nullable;
 import ru.iokhin.tm.model.entity.AbstractEntity;
 import ru.iokhin.tm.model.entity.Project;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 @Getter
 @Setter
+@XmlRootElement
 @NoArgsConstructor
 public class ProjectParticipantDTO extends AbstractEntity {
 

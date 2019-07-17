@@ -1,4 +1,4 @@
-package ru.iokhin.tm.endpoint;
+package ru.iokhin.tm.endpoint.soap;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

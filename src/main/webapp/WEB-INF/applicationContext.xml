@@ -7,6 +7,7 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 http://www.springframework.org/schema/context
@@ -18,15 +19,21 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx.xsd
 http://cxf.apache.org/jaxws
-http://cxf.apache.org/schemas/jaxws.xsd">
+http://cxf.apache.org/schemas/jaxws.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd">
 
+    <mvc:annotation-driven/>
     <context:component-scan base-package="ru.iokhin.tm"/>
 
-    <jaxws:endpoint id="projectEndpoint" address="/ProjectEndpoint"
-                    implementor="ru.iokhin.tm.endpoint.ProjectEndpoint" />
-    <jaxws:endpoint id="taskEndpoint" address="/TaskEndpoint"
-                    implementor="ru.iokhin.tm.endpoint.TaskEndpoint" />
-    <jaxws:endpoint id="userEndpoint" address="/UserEndpoint"
-                    implementor="ru.iokhin.tm.endpoint.UserEndpoint" />
+<!--way to publish endpoints-->
+<!--    <jaxws:endpoint id="projectEndpoint" address="/ProjectEndpoint"-->
+<!--                    implementor="ru.iokhin.tm.endpoint.soap.ProjectEndpoint"/>-->
+<!--    <jaxws:endpoint id="taskEndpoint" address="/TaskEndpoint"-->
+<!--                    implementor="ru.iokhin.tm.endpoint.soap.TaskEndpoint"/>-->
+<!--    <jaxws:endpoint id="userEndpoint" address="/UserEndpoint"-->
+<!--                    implementor="ru.iokhin.tm.endpoint.soap.UserEndpoint"/>-->
+
+<!--    <jaxrs:server id="projectEndpointREST" serviceClass="ru.iokhin.tm.endpoint.rest.ProjectEndpoint"/>-->
 
 </beans>

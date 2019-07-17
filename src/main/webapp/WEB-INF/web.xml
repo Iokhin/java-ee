@@ -33,6 +33,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <servlet-name>faces</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
     <!--CFX-->
     <servlet>
         <servlet-name>cxf</servlet-name>
@@ -44,6 +45,21 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
     <servlet-mapping>
         <servlet-name>cxf</servlet-name>
         <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+<!--    spring mvc-->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/applicationContext.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 </web-app>

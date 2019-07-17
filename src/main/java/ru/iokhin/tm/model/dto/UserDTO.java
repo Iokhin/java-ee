@@ -8,8 +8,11 @@ import org.jetbrains.annotations.Nullable;
 import ru.iokhin.tm.enumerated.RoleEnum;
 import ru.iokhin.tm.model.entity.AbstractEntity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Getter
 @Setter
+@XmlRootElement
 @NoArgsConstructor
 public class UserDTO extends AbstractEntity {
 

@@ -6,8 +6,11 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Getter
 @Setter
+@XmlRootElement
 @NoArgsConstructor
 public class TaskDTO extends BaseEntityDTO {
 

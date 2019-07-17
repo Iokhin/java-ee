@@ -3,8 +3,12 @@ package ru.iokhin.tm.model.dto;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
+@XmlRootElement
 @NoArgsConstructor
-public class ProjectDTO extends BaseEntityDTO {
+public class ProjectDTO extends BaseEntityDTO implements Serializable {
     @Override
     public String toString() {
         return getId();
