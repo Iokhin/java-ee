@@ -3,10 +3,7 @@ package ru.iokhin.tm.endpoint.rest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.iokhin.tm.api.endpoint.ITaskEndpoint;
 import ru.iokhin.tm.api.service.ITaskService;
 import ru.iokhin.tm.model.dto.ResultDTO;
@@ -27,7 +24,7 @@ public class TaskEndpointREST {
         return taskService.findAllByUserId(userId);
     }
 
-    @GetMapping(value = "/removeAllByUserId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/removeAllByUserId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO removeAllByUserId(@RequestParam(name = "userId") @NotNull String userId) {
         taskService.removeAllByUserId(userId);
         return new ResultDTO(true);
@@ -53,19 +50,19 @@ public class TaskEndpointREST {
         return taskService.findOneByUserId(userId, id);
     }
 
-    @GetMapping(value = "/persist", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO persist(@RequestParam(name = "entity") @NotNull TaskDTO entity) {
+    @PostMapping(value = "/persist", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO persist(@RequestBody @NotNull TaskDTO entity) {
         taskService.persist(entity);
         return new ResultDTO(true);
     }
 
-    @GetMapping(value = "/merge", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO merge(@RequestParam(name = "entity") @NotNull TaskDTO entity) {
+    @PostMapping(value = "/merge", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO merge(@RequestBody @NotNull TaskDTO entity) {
         taskService.merge(entity);
         return new ResultDTO(true);
     }
 
-    @GetMapping(value = "/removeById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/removeById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO removeById(@RequestParam(name = "id") @NotNull String id) {
         taskService.removeById(id);
         return new ResultDTO(true);

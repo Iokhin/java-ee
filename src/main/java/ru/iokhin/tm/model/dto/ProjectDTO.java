@@ -1,5 +1,6 @@
 package ru.iokhin.tm.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @XmlRootElement
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectDTO extends BaseEntityDTO implements Serializable {
     @Override
     public String toString() {
