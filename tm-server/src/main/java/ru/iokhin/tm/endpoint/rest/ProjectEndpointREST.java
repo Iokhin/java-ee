@@ -44,13 +44,13 @@ public class ProjectEndpointREST {
     }
 
     @PostMapping(value = "/persist", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO persist(@RequestParam(name = "entity") @NotNull ProjectDTO entity) {
+    public ResultDTO persist(@RequestBody @NotNull ProjectDTO entity) {
         projectService.persist(entity);
         return new ResultDTO(true);
     }
 
     @PostMapping(value = "/merge", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO merge(@RequestParam(name = "entity") @NotNull ProjectDTO entity) {
+    public ResultDTO merge(@RequestBody @NotNull ProjectDTO entity) {
         projectService.merge(entity);
         return new ResultDTO(true);
     }

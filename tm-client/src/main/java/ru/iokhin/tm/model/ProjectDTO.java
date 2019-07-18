@@ -1,4 +1,4 @@
-package ru.iokhin.tm.model.dto;
+package ru.iokhin.tm.model;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;

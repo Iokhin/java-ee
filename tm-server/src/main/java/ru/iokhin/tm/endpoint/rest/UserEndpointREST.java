@@ -3,10 +3,7 @@ package ru.iokhin.tm.endpoint.rest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.iokhin.tm.api.endpoint.IUserEndpoint;
 import ru.iokhin.tm.api.service.IUserService;
 import ru.iokhin.tm.exception.AuthException;
@@ -33,19 +30,19 @@ public class UserEndpointREST {
         return userService.findByLogin(login);
     }
 
-    @GetMapping(value = "/persist", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO persist(@RequestParam(name = "entity") @NotNull UserDTO entity) {
+    @PostMapping(value = "/persist", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO persist(@RequestBody @NotNull UserDTO entity) {
         userService.persist(entity);
         return new ResultDTO(true);
     }
 
-    @GetMapping(value = "/merge", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO merge(@RequestParam(name = "entity") @NotNull UserDTO entity) {
+    @PostMapping(value = "/merge", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO merge(@RequestBody @NotNull UserDTO entity) {
         userService.merge(entity);
         return new ResultDTO(true);
     }
 
-    @GetMapping(value = "/removeById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/removeById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO removeById(@RequestParam(name = "id") @NotNull String id) {
         userService.removeById(id);
         return new ResultDTO(true);

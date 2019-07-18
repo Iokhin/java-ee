@@ -1,5 +1,6 @@
 package ru.iokhin.tm.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Setter
 @XmlRootElement
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskDTO extends BaseEntityDTO {
 
     @Nullable
