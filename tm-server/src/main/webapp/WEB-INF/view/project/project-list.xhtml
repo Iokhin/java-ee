@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
-<f:view>
+<f:view transient="true">
     <ui:composition template="/WEB-INF/view/template.xhtml">
     <ui:param name="title" value="PROJECT LIST"/>
     <ui:define name="content">
@@ -34,7 +34,7 @@
                     <p:column headerText="Options">
                         <p:commandButton icon="fa fa-cog" action="#{projectViewController.projectEdit(project.id)}"/>
                         <p:commandButton icon="fa fa-trash-o"
-                                         actionListener="#{projectViewController.removeById(project.id)}" update="@all"/>
+                                         actionListener="#{projectViewController.removeById(project.id)}" update="@form"/>
                         <p:commandButton icon="fa fa-calendar-check-o"
                         action="#{projectTaskViewController.showTaskList(project.id)}"/>
                         <p:commandButton icon="fa fa-users"
@@ -43,7 +43,7 @@
                 </p:dataTable>
                 <hr/>
                 <div style="display: flex; justify-content: center;">
-                <p:commandButton value="CREATE NEW PROJECT" action="#{projectViewController.projectCreate}" update="@all"/>
+                <p:commandButton value="CREATE NEW PROJECT" action="#{projectViewController.projectCreate}" update="@form"/>
                 </div>
             </h:form>
     </ui:define>

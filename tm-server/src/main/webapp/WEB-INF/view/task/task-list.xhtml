@@ -35,12 +35,12 @@
                         <p:commandButton icon="fa fa-cog"
                                          action="#{taskViewController.taskEdit(task.id)}"/>
                         <p:commandButton icon="fa fa-trash-o"
-                                         actionListener="#{taskViewController.removeById(task.id)}" update="@all"/>
+                                         actionListener="#{taskViewController.removeById(task.id)}" update="@form"/>
                     </p:column>
                 </p:dataTable>
                 <hr/>
                 <div style="display: flex; justify-content: center;">
-                <p:commandButton value="CREATE NEW TASK" action="#{taskViewController.taskCreate}" update="@all"/>
+                <p:commandButton value="CREATE NEW TASK" action="#{taskViewController.taskCreate}" update="@form"/>
                 </div>
             </h:form>
     </ui:define>
