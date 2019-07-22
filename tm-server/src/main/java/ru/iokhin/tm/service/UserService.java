@@ -95,6 +95,7 @@ public class UserService implements IUserService {
         user.setLogin(userDTO.getLogin());
         user.setEmail(userDTO.getEmail());
         user.setPasswordHash(encoder.encode(userDTO.getPassword()));
+        user.setRole(userDTO.getRole());
         if (userDTO.getRole().equals(RoleEnum.ADMIN)) {
             user.setRoles(new HashSet<>(roleRepository.findAll()));
             return user;

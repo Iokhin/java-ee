@@ -24,7 +24,11 @@ import javax.servlet.http.HttpSession;
         @URLMapping(
                 id = "login",
                 pattern = "/login",
-                viewId = "/WEB-INF/view/user/login.xhtml")
+                viewId = "/WEB-INF/view/user/login.xhtml"),
+        @URLMapping(
+                id = "welcome",
+                pattern = "/welcome",
+                viewId = "/WEB-INF/view/welcome.xhtml")
 })
 public class UserLoginController {
 

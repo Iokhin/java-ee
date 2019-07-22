@@ -3,6 +3,7 @@ package ru.iokhin.tm.endpoint.rest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.iokhin.tm.api.service.IProjectService;
 import ru.iokhin.tm.model.dto.ProjectDTO;
@@ -26,6 +27,7 @@ public class ProjectEndpointREST {
     public ResultDTO removeAllByUserId(@RequestParam(name = "userId") @NotNull String userId) {
         projectService.removeAllByUserId(userId);
         return new ResultDTO(true);
+//        return ResponseEntity.ok(userId);
     }
 
     @GetMapping(value = "/sortByUserId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -24,6 +24,8 @@ http://cxf.apache.org/jaxrs
 http://cxf.apache.org/schemas/jaxrs.xsd">
 
     <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
     <context:component-scan base-package="ru.iokhin.tm"/>
 
 <!--way to publish endpoints-->
@@ -35,5 +37,4 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 <!--                    implementor="ru.iokhin.tm.endpoint.soap.UserEndpoint"/>-->
 
 <!--    <jaxrs:server id="projectEndpointREST" serviceClass="ru.iokhin.tm.endpoint.rest.ProjectEndpoint"/>-->
-
 </beans>

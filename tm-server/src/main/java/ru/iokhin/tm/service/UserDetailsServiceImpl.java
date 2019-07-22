@@ -13,11 +13,10 @@ import ru.iokhin.tm.model.entity.Role;
 import ru.iokhin.tm.model.entity.User;
 import ru.iokhin.tm.repository.UserRepository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-@Service
-public class UserDetailServiceImpl implements UserDetailsService {
+@Service("userDetailsService")
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -32,7 +31,18 @@ public class UserDetailServiceImpl implements UserDetailsService {
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPasswordHash(), grantedAuthorities);
+
+//        ALTERNATIVE WAY
+//        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+//        builder =  org.springframework.security.core.userdetails.User.withUsername(login);
+//        builder.password(user.getPasswordHash());
+//        final Set<Role> roleSet = user.getRoles();
+//        final List<String> roles = new ArrayList<>();
+//        for (Role role : roleSet) {
+//            roles.add(role.getName());
+//        }
+//        builder.roles(roles.toArray(new String[]{}));
+//        return builder.build();
     }
 }
