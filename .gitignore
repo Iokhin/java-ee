@@ -1,5 +1,6 @@
 **/.idea/
 **/target/
+**/WEB-INF/classes/
 **/*.iml
 **/.mvn/
 HELP.md

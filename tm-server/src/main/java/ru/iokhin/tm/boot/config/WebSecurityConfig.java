@@ -23,6 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private ServiceAuthenticationEntryPoint serviceAuthenticationEntryPoint;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -34,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/resources/**", "/javax.faces.resource/**", "/welcome", "/ws/**", "/api/**")
+                .antMatchers("/resources/**", "/javax.faces.resource/**", "/login", "/welcome")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -50,7 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
                 .headers()
                 .frameOptions()
-                .sameOrigin();
+                .sameOrigin()
+                .and()
+            .httpBasic()
+                .authenticationEntryPoint(serviceAuthenticationEntryPoint);
 //        http
 //            .sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
