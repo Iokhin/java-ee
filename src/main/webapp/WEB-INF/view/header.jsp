@@ -34,6 +34,8 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/project-list">Projects</a>
+            </li><li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/project-list-pageable?page=0&size=10">Pageable Projects</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/task-list">Tasks</a>

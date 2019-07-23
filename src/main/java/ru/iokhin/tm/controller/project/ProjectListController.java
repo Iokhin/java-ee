@@ -39,9 +39,10 @@ public class ProjectListController {
     @GetMapping("/project-list-pageable")
     protected String projectListPage(@NotNull final HttpSession session, @NotNull final Model model, @RequestParam("page") int pageIndex,
                                      @RequestParam("size") int pageSize) {
-        Page<Project> projects = projectRepository.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("name")));
+        Page<Project> projects = projectRepository.findAll(PageRequest.of(pageIndex, pageSize));
         model.addAttribute("projects", projects.getContent());
         model.addAttribute("pagesTotal", projects.getTotalPages());
+        model.addAttribute("page", projects);
         return "project/project-list-pageable";
     }
 }
