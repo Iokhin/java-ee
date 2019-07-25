@@ -80,15 +80,6 @@ public class UserService implements IUserService {
         return userRepository.findAll().stream().map(User::getUserDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public UserDTO authUser(@NotNull String login, @NotNull String password) throws AuthException {
-        StringValidator.validate(login, password);
-        UserDTO user = findByLogin(login);
-        if (user == null) throw new AuthException("WRONG LOGIN");
-        if (!user.getPassword().equals(MD5Util.passwordToHash(password))) throw new AuthException("WRONG PASSWORD");
-        return user;
-    }
-
     private User getUserFromDTO(@NotNull final UserDTO userDTO) {
         @NotNull final User user = new User();
         user.setId(userDTO.getId());
@@ -103,6 +94,16 @@ public class UserService implements IUserService {
         user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByName(RoleEnum.USER.toString())
                 .orElse(new Role(RoleEnum.USER.toString())))));
         return user;
+    }
+
+    @Nullable
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO authUser(@Nullable final String login, @Nullable final String password) {
+        @Nullable final User user = userRepository.findUserByLogin(login).orElse(null);
+        if (user == null) return null;
+        if (!user.getPasswordHash().equals(password)) return null;
+        return user.getUserDTO();
     }
 
 }

@@ -7,12 +7,15 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.iokhin.tm.boot.enumerated.RoleEnum;
 import ru.iokhin.tm.boot.model.dto.UserDTO;
 import ru.iokhin.tm.boot.util.MD5Util;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
