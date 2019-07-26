@@ -1,4 +1,4 @@
-package ru.iokhin.tm.boot.security.token;
+package ru.iokhin.tm.boot.security.jwt;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

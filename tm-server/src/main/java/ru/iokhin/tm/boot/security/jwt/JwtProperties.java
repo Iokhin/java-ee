@@ -1,4 +1,4 @@
-package ru.iokhin.tm.boot.security.token;
+package ru.iokhin.tm.boot.security.jwt;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

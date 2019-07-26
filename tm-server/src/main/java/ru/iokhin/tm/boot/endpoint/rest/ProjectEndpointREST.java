@@ -17,6 +17,12 @@ public class ProjectEndpointREST {
     @Autowired
     private IProjectService projectService;
 
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO create(@RequestParam(name = "userId") @NotNull String userId) {
+        projectService.create(userId);
+        return new ResultDTO(true);
+    }
+
     @GetMapping(value = "/findAllByUserId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<ProjectDTO> findAllByUserId(@RequestParam(name = "userId") @NotNull String userId) {
         return projectService.findAllByUserId(userId);

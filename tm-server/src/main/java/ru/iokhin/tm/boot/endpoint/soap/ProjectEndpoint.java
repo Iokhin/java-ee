@@ -17,6 +17,11 @@ public class ProjectEndpoint implements IProjectEndpoint {
 
 
     @Override
+    public void create(@NotNull String userId) {
+        projectService.create(userId);
+    }
+
+    @Override
     public List<ProjectDTO> findAllByUserId(@NotNull String userId) {
         return projectService.findAllByUserId(userId);
     }

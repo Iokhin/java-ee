@@ -1,4 +1,4 @@
-package ru.iokhin.tm.boot.security.token;
+package ru.iokhin.tm.boot.security.jwt;
 
 import java.util.Base64;
 import java.util.Date;

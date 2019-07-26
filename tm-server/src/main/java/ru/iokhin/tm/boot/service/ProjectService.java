@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.boot.api.service.IProjectService;
+import ru.iokhin.tm.boot.enumerated.Status;
 import ru.iokhin.tm.boot.model.dto.ProjectDTO;
 import ru.iokhin.tm.boot.model.entity.Project;
 import ru.iokhin.tm.boot.model.entity.User;
@@ -38,6 +39,17 @@ public class ProjectService implements IProjectService {
     @NotNull
     @Autowired
     private ProjectParticipantRepository projectParticipantRepository;
+
+    @Override
+    public void create(@NotNull String userId) {
+        StringValidator.validate(userId);
+        @NotNull final ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setName("NEW PROJECT");
+        projectDTO.setDescription("NEW PROJECT");
+        projectDTO.setStatus(Status.PLANNING);
+        projectDTO.setUserId(userId);
+        merge(projectDTO);
+    }
 
     @Override
     public List<ProjectDTO> findAllByUserId(@NotNull final String userId) {

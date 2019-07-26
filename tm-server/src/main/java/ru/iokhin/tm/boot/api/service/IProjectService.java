@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IProjectService extends IRepository<ProjectDTO> {
 
+    void create(@NotNull String userId);
+
     List<ProjectDTO> findAllByUserId(@NotNull String userId);
 
     void removeAllByUserId(@NotNull String userId);
