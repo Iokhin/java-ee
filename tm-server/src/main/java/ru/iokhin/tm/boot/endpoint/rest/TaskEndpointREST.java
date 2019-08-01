@@ -17,6 +17,12 @@ public class TaskEndpointREST {
     @Autowired
     private ITaskService taskService;
 
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO create(@RequestParam(name = "userId") @NotNull String userId) {
+        taskService.create(userId);
+        return new ResultDTO(true);
+    }
+
     @GetMapping(value = "/findAllByUserId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<TaskDTO> findAllByUserId(@RequestParam(name = "userId") @NotNull String userId) {
         return taskService.findAllByUserId(userId);

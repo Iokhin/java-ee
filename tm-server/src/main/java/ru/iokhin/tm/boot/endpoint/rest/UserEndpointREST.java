@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.iokhin.tm.boot.api.service.IUserService;
-import ru.iokhin.tm.boot.exception.AuthException;
 import ru.iokhin.tm.boot.model.dto.ResultDTO;
 import ru.iokhin.tm.boot.model.dto.UserDTO;
 
@@ -18,9 +17,11 @@ public class UserEndpointREST {
     @Autowired
     private IUserService userService;
 
-    //THINK ABOUT IT
-    public UserDTO authUser(@NotNull String login, @NotNull String password) throws AuthException {
-        return null;
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO create(@RequestParam(name = "username") @NotNull String username,
+                            @RequestParam(name = "password") @NotNull String password) {
+        userService.create(username, password);
+        return new ResultDTO(true);
     }
 
     @GetMapping(value = "/findByLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

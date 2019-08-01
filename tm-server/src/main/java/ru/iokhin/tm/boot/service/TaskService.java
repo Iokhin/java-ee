@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.iokhin.tm.boot.api.service.ITaskService;
+import ru.iokhin.tm.boot.enumerated.Status;
 import ru.iokhin.tm.boot.model.dto.ProjectDTO;
 import ru.iokhin.tm.boot.model.dto.TaskDTO;
 import ru.iokhin.tm.boot.model.entity.Project;
@@ -104,6 +105,17 @@ public class TaskService implements ITaskService {
         final Task task = taskRepository.findTaskByUserAndId(user, id).orElse(null);
         if (task == null) return null;
         return task.getTaskDTO();
+    }
+
+    @Override
+    public void create(@NotNull String userId) {
+        StringValidator.validate(userId);
+        @NotNull final TaskDTO taskDTO = new TaskDTO();
+        taskDTO.setName("NEW TASK");
+        taskDTO.setDescription("NEW TASK");
+        taskDTO.setStatus(Status.PLANNING);
+        taskDTO.setUserId(userId);
+        merge(taskDTO);
     }
 
     @Override

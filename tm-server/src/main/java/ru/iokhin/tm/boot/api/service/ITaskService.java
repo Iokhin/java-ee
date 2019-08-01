@@ -20,4 +20,6 @@ public interface ITaskService extends IRepository<TaskDTO> {
 
     TaskDTO findOneByUserId(@NotNull String userId, @NotNull String id);
 
+    void  create(@NotNull String userId);
+
 }

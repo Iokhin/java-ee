@@ -11,4 +11,5 @@ public interface IUserService extends IRepository<UserDTO> {
 
     UserDTO findByLogin(@NotNull String login);
 
+    void create(@NotNull String login, @NotNull String password);
 }

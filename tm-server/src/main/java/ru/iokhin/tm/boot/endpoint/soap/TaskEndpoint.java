@@ -46,6 +46,11 @@ public class TaskEndpoint implements ITaskEndpoint {
     }
 
     @Override
+    public void create(@NotNull String userId) {
+        taskService.create(userId);
+    }
+
+    @Override
     public void persist(@NotNull TaskDTO entity) {
         taskService.persist(entity);
     }

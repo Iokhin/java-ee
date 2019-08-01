@@ -54,11 +54,25 @@ public class Bootstrap {
         projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         projectService.merge(new ProjectDTO("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
         projectService.merge(new ProjectDTO("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
         projectService.merge(new ProjectDTO("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e"));
 
 //        init task
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
+        taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
         taskService.merge(new TaskDTO("58607299-b756-4f72-922d-07e3c9f1448d"));

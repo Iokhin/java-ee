@@ -50,6 +50,15 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void create(@NotNull String login, @NotNull String password) {
+        final UserDTO userDTO = new UserDTO();
+        userDTO.setLogin(login);
+        userDTO.setPassword(password);
+        userDTO.setRole(RoleEnum.USER);
+        persist(userDTO);
+    }
+
+    @Override
     public void persist(@NotNull UserDTO userDTO) {
         @NotNull final User user = getUserFromDTO(userDTO);
         if (user == null) return;

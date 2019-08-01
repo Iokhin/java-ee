@@ -28,6 +28,11 @@ public class UserEndpoint implements IUserEndpoint {
     }
 
     @Override
+    public void create(@NotNull String login, @NotNull String password) {
+        userService.create(login, password);
+    }
+
+    @Override
     public void persist(@NotNull UserDTO entity) {
         userService.persist(entity);
     }
