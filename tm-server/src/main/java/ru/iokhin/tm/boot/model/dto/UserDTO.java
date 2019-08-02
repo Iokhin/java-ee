@@ -43,4 +43,12 @@ public class UserDTO extends AbstractEntity {
         this.role = role;
     }
 
+    public UserDTO(@NotNull String id, @Nullable String login, @Nullable String password, @Nullable RoleEnum role, @Nullable String email) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+    }
+
 }

@@ -77,4 +77,5 @@ public class ProjectEndpointREST {
     public List<ProjectDTO> findAll() {
         return projectService.findAll();
     }
+
 }

@@ -14,8 +14,10 @@ import ru.iokhin.tm.boot.model.entity.User;
 import ru.iokhin.tm.boot.repository.ProjectParticipantRepository;
 import ru.iokhin.tm.boot.repository.ProjectRepository;
 import ru.iokhin.tm.boot.repository.UserRepository;
+import ru.iokhin.tm.boot.util.DateFormatter;
 import ru.iokhin.tm.boot.util.StringValidator;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +108,20 @@ public class ProjectService implements IProjectService {
         @Nullable final Project project = projectRepository.findProjectByUserAndId(user, id).orElse(null);
         if (project == null) return null;
         return project.getProjectDTO();
+    }
+
+    @Override
+    public void edit(@NotNull String id, @Nullable String newName, @Nullable String newDescription,
+                     @Nullable String newStatus, @Nullable String newDateStart, @Nullable String newDateEnd)
+            throws ParseException {
+        @Nullable ProjectDTO projectDTO = findOne(id);
+        if (projectDTO == null) throw new RuntimeException("Project was not found");
+        if (newName != null) projectDTO.setName(newName);
+        if (newDescription != null) projectDTO.setDescription(newDescription);
+        if (newStatus != null) projectDTO.setStatus(Status.getStatusByName(newStatus));
+        if (newDateStart != null) projectDTO.setDateStart(DateFormatter.stringToDate(newDateStart));
+        if (newDateEnd != null) projectDTO.setDateEnd(DateFormatter.stringToDate(newDateEnd));
+        merge(projectDTO);
     }
 
     @Override

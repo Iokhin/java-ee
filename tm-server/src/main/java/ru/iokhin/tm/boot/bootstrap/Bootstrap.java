@@ -47,8 +47,10 @@ public class Bootstrap {
         roleService.save(new Role(RoleEnum.USER.toString()));
 
 //        init users
-        userService.merge(new UserDTO("58607299-b756-4f72-922d-07e3c9f1448d", "user", "user", RoleEnum.USER));
-        userService.merge(new UserDTO("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e", "admin", "admin", RoleEnum.ADMIN));
+        userService.merge(new UserDTO("58607299-b756-4f72-922d-07e3c9f1448d", "user", "user",
+                RoleEnum.USER, "user@mail.ru"));
+        userService.merge(new UserDTO("ada5b8d2-1181-4db7-b0ac-8430d2fcfa6e", "admin", "admin",
+                RoleEnum.ADMIN, "admin@mail.ru"));
 
 //        init projects
         projectService.merge(new ProjectDTO("58607299-b756-4f72-922d-07e3c9f1448d"));
