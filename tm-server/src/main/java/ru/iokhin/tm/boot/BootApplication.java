@@ -6,14 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.web.context.ServletContextAware;
 
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 
+@Configuration
 @SpringBootApplication
-public class BootApplication {
+public class BootApplication implements ServletContextAware {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
@@ -27,14 +29,14 @@ public class BootApplication {
 		return servletRegistrationBean;
 	}
 
-//	@Bean
-//	public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
-//		return new ServletListenerRegistrationBean<ConfigureListener>(
-//				new ConfigureListener());
-//	}
-//
-//	@Override
-//	public void setServletContext(ServletContext servletContext) {
-//		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-//	}
+	@Bean
+	public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
+		return new ServletListenerRegistrationBean<ConfigureListener>(
+				new ConfigureListener());
+	}
+
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
+	}
 }

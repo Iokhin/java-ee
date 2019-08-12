@@ -1,12 +1,14 @@
 package ru.iokhin.tm.boot.endpoint.soap;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.iokhin.tm.boot.api.endpoint.IProjectEndpoint;
 import ru.iokhin.tm.boot.api.service.IProjectService;
 import ru.iokhin.tm.boot.model.dto.ProjectDTO;
 
 import javax.jws.WebService;
+import java.text.ParseException;
 import java.util.List;
 
 @WebService(endpointInterface = "ru.iokhin.tm.boot.api.endpoint.IProjectEndpoint")
@@ -44,6 +46,11 @@ public class ProjectEndpoint implements IProjectEndpoint {
     @Override
     public ProjectDTO findOneByUserId(@NotNull String userId, @NotNull String id) {
         return projectService.findOneByUserId(userId, id);
+    }
+
+    @Override
+    public void edit(@NotNull String id, @Nullable String newName, @Nullable String newDescription, @Nullable String newStatus, @Nullable String newDateStart, @Nullable String newDateEnd) throws ParseException {
+
     }
 
     @Override
